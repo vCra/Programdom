@@ -1,0 +1,103 @@
+{% load static i18n %}<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <title>{% block title %}Welcome{% endblock title %} | Programdom</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="">
+    <meta name="author" content="">
+
+    <!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+    <!--[if lt IE 9]>
+      <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <![endif]-->
+
+    <link rel="icon" href="{% static 'images/favicons/favicon.ico' %}">
+    <link rel="icon" type="image/png" href="{% static 'images/favicons/favicon-16x16.png' %}" sizes="16x16">
+    <link rel="icon" type="image/png" href="{% static 'images/favicons/favicon-32x32.png' %}" sizes="32x32">
+    <link rel="icon" type="image/png" href="{% static 'images/favicons/favicon-96x96.png' %}" sizes="96x96">
+
+
+    {% block css %}
+    
+
+    <!-- Your stuff: Third-party CSS libraries go here -->
+    
+    <!-- This file stores project-specific CSS -->
+    
+    <link href="{% static 'css/project.min.css' %}" rel="stylesheet">
+    
+    
+    {% endblock %}
+
+  </head>
+
+  <body>
+
+    <div class="m-b-1">
+      <nav class="navbar navbar-expand-md navbar-light bg-light">
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <a class="navbar-brand" href="{% url 'home' %}">
+          Programdom</a>
+
+        <div class="collapse navba  r-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav ml-auto">
+            {% with request.resolver_match.url_name as url_name %}
+            {% with request.resolver_match.namespace as namespace %}
+
+            <li class="nav-item {% if url_name == 'home' %}active{% endif %}">
+              <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
+            </li>
+
+            {% endwith %}
+          {% endwith %}
+          </ul>
+        </div>
+         
+      </nav>
+
+    </div>
+
+    <div class="container">
+      {% if messages %}
+          {% for message in messages %}
+              <div class="alert alert-dismissible {% if message.tags %}alert-{{ message.tags }}{% endif %}">
+                {{ message }}
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+              </div>
+          {% endfor %}
+      {% endif %}
+      {% block content %}
+        <p>If you see this, then you need to use block content</p>
+      {% endblock content %}
+
+    </div> <!-- /container -->
+{% block body %}
+
+{% endblock %}
+
+    {% block modal %}{% endblock modal %}
+
+    <!-- Le javascript
+    ================================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    {% block javascript %}
+
+      <script src="{% static 'js/vendors.js' %}"></script>
+      
+      
+
+      <!-- place project specific Javascript in this file -->
+      
+      <script src="{% static 'js/project.js' %}"></script>
+      
+
+    {% endblock javascript %}
+  </body>
+</html>
+ 
