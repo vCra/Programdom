@@ -7,8 +7,6 @@ from django.contrib.postgres.fields import DateTimeRangeField
 
 User = get_user_model()
 
-
-
 class Module(Group):
     """
     A Module, extends from a django group for ease of use
@@ -23,7 +21,9 @@ class Workshop(models.Model):
     students can quickly go to in progress workshops
     """
     title = models.CharField(max_length=255, null=True)
-    time = DateTimeRangeField(null=True)
+    start_time = models.DateTimeField()
+    end_time = models.DateTimeField()
+    modules = models.ManyToManyField(Module)
 
 
 class Problem(models.Model):
@@ -33,7 +33,7 @@ class Problem(models.Model):
     workshops = models.ManyToManyField(Workshop)
     title = models.CharField(max_length=255)
     description = models.TextField(null=True)
-    options = JSONField(blank=True, default="{}")
+    options = JSONField(blank=True, default=dict)
 
 
 class Submission(models.Model):
@@ -43,7 +43,7 @@ class Submission(models.Model):
     problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     code = models.FileField()
-    options = JSONField(blank=True, default="{}")
+    options = JSONField(blank=True, default=dict)
 
 
 class SubmissionResult(models.Model):
@@ -52,7 +52,7 @@ class SubmissionResult(models.Model):
     """
     submission = models.OneToOneField(Submission, on_delete=models.CASCADE)
     status = models.CharField(max_length=2)
-    result_data = JSONField(blank=True, default="{}")
+    result_data = JSONField(blank=True, default=dict)
     std_out = models.FileField()
     std_err = models.FileField()
     

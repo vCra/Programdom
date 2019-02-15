@@ -53,3 +53,10 @@ EMAIL_PORT = 1025
 
 # Your stuff...
 # ------------------------------------------------------------------------------
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': 'testdb.db',
+    }
+}

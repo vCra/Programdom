@@ -15,23 +15,15 @@
   <component name="NewModuleRootManager" inherit-compiler-output="true">
     <exclude-output />
     <content url="file://$MODULE_DIR$" />
-    <orderEntry type="jdk" jdkName="Remote Python 3.6.7 Docker Compose (django at [/Users/awalker/Documents/Development/programdom/local.yml])" jdkType="Python SDK" />
+    <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
   </component>
   <component name="TemplatesService">
     <option name="TEMPLATE_CONFIGURATION" value="Django" />
     <option name="TEMPLATE_FOLDERS">
       <list>
-        <option value="$MODULE_DIR$/abercompsoc/templates" />
-        <option value="$MODULE_DIR$/abercompsoc/templates/blog" />
-        <option value="$MODULE_DIR$/abercompsoc/templates/pages" />
-        <option value="$MODULE_DIR$/abercompsoc/templates/users" />
-        <option value="$MODULE_DIR$/abercompsoc/templates/events" />
-        <option value="$MODULE_DIR$/abercompsoc/templates/voting" />
-        <option value="$MODULE_DIR$/abercompsoc/templates/voting/tables" />
-        <option value="$MODULE_DIR$/abercompsoc/templates/account" />
-        <option value="$MODULE_DIR$/abercompsoc/templates/markdownx" />
-        <option value="$MODULE_DIR$/abercompsoc/templates/newsletter" />
+        <option value="$MODULE_DIR$/programdom/templates" />
+        <option value="$MODULE_DIR$/programdom/templates/pages" />
       </list>
     </option>
   </component>

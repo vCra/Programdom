@@ -1,0 +1,20 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "My Modules" %}{% endblock title %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+    <li class="breadcrumb-item active">My Modules</li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+    {% for module in object_list %}
+        <div class="col-lg-4 col-md-6 card">
+            <div class="card-body">
+                <h5 class="card-title mb-0">{{ module.name }}</h5>
+                <small class="text-muted">{{ module.code }}</small>
+                <p>{{ module.workshop_set.count }} workshop{{ module.workshop_set.count|pluralize }} available </p>
+                <a href="{% url "module_detail" module.code %}" class="btn btn-primary">Go to Module</a>
+            </div>
+        </div>    {% endfor %}
+{% endblock content %}

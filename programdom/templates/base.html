@@ -1,6 +1,6 @@
 {% load static i18n %}<!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
     <meta charset="utf-8">
     <meta http-equiv="x-ua-compatible" content="ie=edge">
     <title>{% block title %}Welcome{% endblock title %} | Programdom</title>
@@ -20,66 +20,73 @@
 
 
     {% block css %}
-    
 
-    <!-- Your stuff: Third-party CSS libraries go here -->
-    
-    <!-- This file stores project-specific CSS -->
-    
-    <link href="{% static 'css/project.min.css' %}" rel="stylesheet">
-    
-    
+
+        <!-- Your stuff: Third-party CSS libraries go here -->
+
+        <!-- This file stores project-specific CSS -->
+
+        <link href="{% static 'css/project.min.css' %}" rel="stylesheet">
+
+
     {% endblock %}
 
-  </head>
+</head>
 
-  <body>
-
-    <div class="m-b-1">
-      <nav class="navbar navbar-expand-md navbar-light bg-light">
-        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
+<body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show">
+    <header class="app-header navbar">
+        <button class="navbar-toggler sidebar-toggler d-lg-none mr-auto" type="button" data-toggle="sidebar-show">
+            <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="{% url 'home' %}">
-          Programdom</a>
+        <a class="navbar-brand" href="#">
+            Programdom
+        </a>
 
-        <div class="collapse navba  r-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav ml-auto">
-            {% with request.resolver_match.url_name as url_name %}
-            {% with request.resolver_match.namespace as namespace %}
-
-            <li class="nav-item {% if url_name == 'home' %}active{% endif %}">
-              <a class="nav-link" href="{% url 'home' %}">Home <span class="sr-only">(current)</span></a>
+        <ul class="nav navbar-nav d-md-down-none">
+            <li class="nav-item px-3">
+                <a class="nav-link" href="#">Home</a>
+            <li class="nav-item px-3">
+            </i><a class="nav-link" href="#">{{ user }}</a>
             </li>
+        </ul>
 
-            {% endwith %}
-          {% endwith %}
-          </ul>
+    </header>
+    <div class="app-body">
+        <div class="sidebar">
+            <nav class="sidebar-nav">
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'home' %}">
+                            <i class="fa fa-home nav-icon"></i> Home
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="{% url 'module_list' %}">
+                            <i class="fa fa-puzzle-piece nav-icon"></i> Modules</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="#">
+                            <i class="nav-icon fa fa-chalkboard"></i> Workshops</a>
+                    </li>
+
+                    </li>
+                </ul>
+            </nav>
+            <button class="sidebar-minimizer sidebar-toggler brand-minimizer" type="button"></button>
         </div>
-         
-      </nav>
+        <main class="main">
+            <!-- Breadcrumb-->
+            <ol class="breadcrumb">
+                {% block breadcrumbs %}
+                {% endblock breadcrumbs %}
+            </ol>
+            <div class="container-fluid">
+                {% block content %}{% endblock %}
+            </div>
+        </main>
 
     </div>
 
-    <div class="container">
-      {% if messages %}
-          {% for message in messages %}
-              <div class="alert alert-dismissible {% if message.tags %}alert-{{ message.tags }}{% endif %}">
-                {{ message }}
-                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
-              </div>
-          {% endfor %}
-      {% endif %}
-      {% block content %}
-        <p>If you see this, then you need to use block content</p>
-      {% endblock content %}
-
-    </div> <!-- /container -->
-{% block body %}
-
-{% endblock %}
 
     {% block modal %}{% endblock modal %}
 
@@ -88,16 +95,15 @@
     <!-- Placed at the end of the document so the pages load faster -->
     {% block javascript %}
 
-      <script src="{% static 'js/vendors.js' %}"></script>
-      
-      
+        <script src="{% static 'js/vendors.js' %}"></script>
 
-      <!-- place project specific Javascript in this file -->
-      
-      <script src="{% static 'js/project.js' %}"></script>
-      
+
+
+        <!-- place project specific Javascript in this file -->
+
+        <script src="{% static 'js/project.js' %}"></script>
+
 
     {% endblock javascript %}
-  </body>
+    </body>
 </html>
- 

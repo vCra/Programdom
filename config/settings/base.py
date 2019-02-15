@@ -72,15 +72,16 @@ DJANGO_APPS = [
     'django.contrib.humanize',  # Handy template tags
     'django.contrib.admin',
 
-    'channels'
 ]
 THIRD_PARTY_APPS = [
     'crispy_forms',
     'rest_framework',
     'django_tables2',
+    'channels'
+
 ]
 LOCAL_APPS = [
-
+    'programdom'
     # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps

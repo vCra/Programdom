@@ -1,7 +1,9 @@
 {
-  "name": "abercompsoc",
+  "name": "programdom",
   "version": "0.1.0",
   "dependencies": {
+    "@coreui/coreui": "^2.1.6",
+    "font-awesome": "^4.7.0",
     "gulp-cli": "^2.0.1"
   },
   "devDependencies": {
@@ -28,7 +30,7 @@
   "scripts": {
     "dev": "gulp"
   },
-  "description": "AberCompSoc ===========",
+  "description": "Programdom",
   "main": "gulpfile.js",
   "directories": {
     "doc": "docs"
