@@ -328,3 +328,11 @@ programdom/media/
 .envs/*
 
 \.idea/
+
+programdom/static/css/project.*
+
+programdom/static/fonts/
+
+programdom/static/js/project\.min\.js
+
+programdom/static/js/vendors*.js

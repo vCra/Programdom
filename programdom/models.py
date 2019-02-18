@@ -3,16 +3,25 @@ from django.contrib.auth.models import Group
 from django.contrib.postgres.fields import JSONField
 from django.db import models
 from django.contrib.postgres.fields import DateTimeRangeField
-
+from django.urls import reverse
 
 User = get_user_model()
 
-class Module(Group):
+
+class Module(models.Model):
     """
     A Module, extends from a django group for ease of use
     """
+    name = models.CharField(max_length=255)
+    users = models.ManyToManyField(User, related_name="modules")
     code = models.CharField(max_length=8)
-    coordinatior = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
+    coordinatior = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="modules_taught")
+
+    def get_absolute_url(self):
+        return reverse('module_detail', kwargs={'code': self.code})
+
+    def __str__(self):
+        return self.name
 
 
 class Workshop(models.Model):
@@ -24,6 +33,12 @@ class Workshop(models.Model):
     start_time = models.DateTimeField()
     end_time = models.DateTimeField()
     modules = models.ManyToManyField(Module)
+
+    def get_absolute_url(self):
+        return reverse('workshop_detail', kwargs={'pk': self.id})
+
+    def __str__(self):
+        return self.title
 
 
 class Problem(models.Model):

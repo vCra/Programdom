@@ -1,0 +1,13 @@
+{% extends "base.html" %}
+{% load i18n humanize %}
+{% block title %}{{ object }}{% endblock title %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'workshop_list' %}">Workshops</a></li>
+    <li class="breadcrumb-item active">{{ object }}</li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+    <h2>{{ object }}</h2>
+{% endblock content %}

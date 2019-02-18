@@ -4,17 +4,30 @@
 
 {% block breadcrumbs %}
     <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
-    <li class="breadcrumb-item active">My Modules</li>
+    <li class="breadcrumb-item active">Modules</li>
 {% endblock breadcrumbs %}
 
 {% block content %}
+    <div class="row">
+        <div class="col">
+        <h3>Modules</h3>
+        </div>
+        <div class="col">
+        <div class="btn-group float-right" role="group" aria-label="Module Buttons">
+            <a class="btn btn-primary" href="{% url 'module_new' %}">Add new Module</a>
+        </div>
+        </div>
+    </div>
+    <div class="card-columns">
     {% for module in object_list %}
-        <div class="col-lg-4 col-md-6 card">
+        <div class="card shadow">
             <div class="card-body">
                 <h5 class="card-title mb-0">{{ module.name }}</h5>
                 <small class="text-muted">{{ module.code }}</small>
                 <p>{{ module.workshop_set.count }} workshop{{ module.workshop_set.count|pluralize }} available </p>
                 <a href="{% url "module_detail" module.code %}" class="btn btn-primary">Go to Module</a>
             </div>
-        </div>    {% endfor %}
+        </div>
+    {% endfor %}
+    </div>
 {% endblock content %}

@@ -31,7 +31,7 @@ SITE_ID = 1
 # https://docs.djangoproject.com/en/dev/ref/settings/#use-i18n
 USE_I18N = True
 # https://docs.djangoproject.com/en/dev/ref/settings/#use-l10n
-USE_L10N = True
+USE_L10N = False
 # https://docs.djangoproject.com/en/dev/ref/settings/#use-tz
 USE_TZ = True
 
@@ -96,9 +96,9 @@ AUTHENTICATION_BACKENDS = [
 ]
 
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-redirect-url
-LOGIN_REDIRECT_URL = 'users:redirect'
+LOGIN_REDIRECT_URL = 'home'
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-url
-LOGIN_URL = 'account_login'
+LOGIN_URL = '/accounts/login/'
 
 # PASSWORDS
 # ------------------------------------------------------------------------------
@@ -138,6 +138,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'programdom.middleware.login_required.LoginRequiredMiddleware'
 ]
 
 # STATIC
@@ -235,7 +236,3 @@ MANAGERS = ADMINS
 ASGI_APPLICATION = "config.routing.application"
 
 
-
-
-# Your stuff...
-# ------------------------------------------------------------------------------
