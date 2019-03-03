@@ -1,0 +1,41 @@
+{% extends "student_base.html" %}
+{% block content %}
+    <div class="align-content-center">
+
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+            <div class="card">
+              <div class="card-body">
+                <h4 class="card-title">Please Wait</h4>
+                  <p class="card-text">They are currently no problems in progress. This page will update when this changes</p>
+
+                  <div class="progress">
+                      <div class="progress-bar progress-bar-animated progress-bar-striped" style="width:100%"></div>
+                  </div>
+              </div>
+            </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+{% block javascript %}
+    {{ block.super }}
+    <script>
+        var chatSocket = new WebSocket(
+            'ws://' + window.location.host +
+            '/ws/waiting/');
+
+        chatSocket.onmessage = function(e) {
+            $(".progress-bar").removeClass("progress-bar-animated").removeClass("progress-bar-striped").addClass("bg-success")
+            var data = JSON.parse(e.data);
+            console.log(data);
+            var problem = data['problem'];
+            window.location.replace('{% url 'problem_base' %}'+problem)
+        };
+
+        chatSocket.onclose = function(e) {
+            console.error('Chat socket closed unexpectedly');
+        };
+
+    </script>
+{% endblock javascript %}

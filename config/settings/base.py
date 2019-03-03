@@ -98,7 +98,7 @@ AUTHENTICATION_BACKENDS = [
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-redirect-url
 LOGIN_REDIRECT_URL = 'home'
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-url
-LOGIN_URL = '/accounts/login/'
+LOGIN_URL = '/workshops/auth/'
 
 # PASSWORDS
 # ------------------------------------------------------------------------------
@@ -235,4 +235,9 @@ MANAGERS = ADMINS
 
 ASGI_APPLICATION = "config.routing.application"
 
+# Mooshak Configuration
+# ------------------------------------------------------------------------------
+#
+
+MOOSHAK_ENDPOINT = "http://localhost:8081/mooshak/api"
 

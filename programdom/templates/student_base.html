@@ -33,49 +33,15 @@
 
 </head>
 {% block body %}
-<body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show">
-    <header class="app-header navbar">
-        <button class="navbar-toggler sidebar-toggler d-lg-none mr-auto" type="button" data-toggle="sidebar-show">
-            <span class="navbar-toggler-icon"></span>
-        </button>
+<body class="app header-fixed">
+    <header class="app-header">
         <a class="navbar-brand" href="#">
             Programdom
         </a>
-
-        <ul class="nav navbar-nav d-md-down-none">
-            <li class="nav-item px-3">
-                <a class="nav-link" href="#">Home</a>
-            <li class="nav-item px-3">
-            </i><a class="nav-link" href="#">{{ user }}</a>
-            </li>
-        </ul>
-
     </header>
     <div class="app-body">
-        <div class="sidebar">
-            <nav class="sidebar-nav">
-                <ul class="nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'home' %}">
-                            <i class="fa fa-home nav-icon"></i> Home
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'workshop_list' %}">
-                            <i class="nav-icon fa fa-database"></i> Workshops</a>
-                    </li>
 
-                    </li>
-                </ul>
-            </nav>
-            <button class="sidebar-minimizer sidebar-toggler brand-minimizer" type="button"></button>
-        </div>
         <main class="main">
-            <!-- Breadcrumb-->
-            <ol class="breadcrumb">
-                {% block breadcrumbs %}
-                {% endblock breadcrumbs %}
-            </ol>
             {% block messages %}
                 <div class="container-fluid">
                 {% for message in messages %}
@@ -86,9 +52,8 @@
                 {% endfor %}
                 </div>
             {% endblock messages %}
-            <div class="container-fluid">
-                {% block content %}{% endblock %}
-            </div>
+            {% block content %}{% endblock %}
+
         </main>
 
     </div>

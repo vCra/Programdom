@@ -1,54 +1,49 @@
+import random
+import string
+
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
 from django.contrib.postgres.fields import JSONField
 from django.db import models
-from django.contrib.postgres.fields import DateTimeRangeField
 from django.urls import reverse
 
 User = get_user_model()
 
 
-class Module(models.Model):
+class Problem(models.Model):
     """
-    A Module, extends from a django group for ease of use
+    A single problem
     """
-    name = models.CharField(max_length=255)
-    users = models.ManyToManyField(User, related_name="modules")
-    code = models.CharField(max_length=8)
-    coordinatior = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, related_name="modules_taught")
+    mooshak_id = models.CharField(max_length=255)
 
-    def get_absolute_url(self):
-        return reverse('module_detail', kwargs={'code': self.code})
+    def set_active(self, workshop_code):
+        """
+        Sets the current problem as active for the current workshop. Additionally, it will broadcast the change to all clients.
+        :param workshop_code:
+        :return:
+        """
 
-    def __str__(self):
-        return self.name
-
-
-class Workshop(models.Model):
+class WorkshopSession(models.Model):
     """
-    A workshop is a single session for a module. It can have multiple problems within it, and can have time data so that
-    students can quickly go to in progress workshops
+    A workshop is a single session
     """
-    title = models.CharField(max_length=255, null=True)
-    start_time = models.DateTimeField()
-    end_time = models.DateTimeField()
-    modules = models.ManyToManyField(Module)
+    code = models.CharField(max_length=8, null=True)
+    problems = models.ManyToManyField(Problem, blank=True)
+
+    def end(self):
+        """
+        Ends the session, by removing the session code
+        """
+        self.code = None
+
+    def start(self):
+        """
+        Sets the session as running, by setting a code
+        """
+        self.code = "".join(random.choices(string.ascii_uppercase + string.digits, k=8))
 
     def get_absolute_url(self):
         return reverse('workshop_detail', kwargs={'pk': self.id})
-
-    def __str__(self):
-        return self.title
-
-
-class Problem(models.Model):
-    """
-    A single problem that is part of an assignment
-    """
-    workshops = models.ManyToManyField(Workshop)
-    title = models.CharField(max_length=255)
-    description = models.TextField(null=True)
-    options = JSONField(blank=True, default=dict)
 
 
 class Submission(models.Model):

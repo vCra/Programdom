@@ -1,12 +1,12 @@
 import django_tables2 as tables
 
-from programdom.models import Workshop
+from programdom.models import WorkshopSession
 
 
 class WorkshopTable(tables.Table):
 
     class Meta:
-        model = Workshop
+        model = WorkshopSession
         exclude = ['id']
 
     title = tables.LinkColumn()

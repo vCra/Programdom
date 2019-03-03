@@ -1,0 +1,28 @@
+version: '3'
+
+volumes:
+  local_postgres_data: {}
+  local_mooshak_data: {}
+
+services:
+  postgres:
+    image:
+      postgres:11-alpine
+    volumes:
+      - local_postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  mooshak:
+    image:
+      rigon/mooshak2
+    ports:
+      - "8081:80"
+    volumes:
+      - local_mooshak_data:/home/mooshak/data
+
+  redis:
+    image:
+      redis:5-alpine
+    ports:
+      - "6379:6379"

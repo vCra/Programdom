@@ -10,8 +10,7 @@ class LoginRequiredMiddleware:
                          getattr(settings, 'OPEN_URLS', [])
 
     def __call__(self, request):
-        if not request.user.is_authenticated \
-                and not request.path_info in self.open_urls:
+        if not (request.user.is_authenticated or request.session.get("current_workshop_id")) and not request.path_info in self.open_urls:
             return redirect(self.login_url+'?next='+request.path)
 
         return self.get_response(request)
