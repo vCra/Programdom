@@ -12,7 +12,7 @@ class WorkshopsForm(forms.ModelForm):
 
     class Meta:
         model = WorkshopSession
-        fields = []
+        fields = ['title']
 
 
 class WorkshopSessionEntryForm(forms.Form):

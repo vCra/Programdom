@@ -7,8 +7,9 @@
             <div class="card">
               <div class="card-body">
                 <h4 class="card-title">Please Wait</h4>
-                  <p class="card-text">They are currently no problems in progress. This page will update when this changes</p>
-
+                  <p class="card-text">
+                      They are currently no problems in progress. This page will update when this changes
+                  </p>
                   <div class="progress">
                       <div class="progress-bar progress-bar-animated progress-bar-striped" style="width:100%"></div>
                   </div>
@@ -36,6 +37,5 @@
         chatSocket.onclose = function(e) {
             console.error('Chat socket closed unexpectedly');
         };
-
     </script>
 {% endblock javascript %}

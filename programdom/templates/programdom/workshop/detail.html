@@ -9,5 +9,49 @@
 {% endblock breadcrumbs %}
 
 {% block content %}
-    <h2>{{ object }}</h2>
+    <div class="row">
+        <div class="col">
+            <h3>{{ object}} <span class="badge badge-dark ">In Progress</span></h3>
+        </div>
+        <div class="col">
+            <div class="btn-group float-right" role="group" aria-label="Workshop Buttons">
+                <a class="btn btn-primary" href="{% url 'problem_new' %}">Edit Problems</a>
+                <a class="btn btn-primary" href="{% url 'workshop_present' object.id %}">Present</a>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+            <div class="nav flex-column nav-pills p-2" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            {% for item in object.problems.all %}
+                <a class="nav-link  {% if forloop.first %}active{% endif %}" id="v-pills-{{ item.id }}-tab" data-toggle="pill" href="#v-pills-{{ item.id }}" role="tab" aria-controls="v-pills-{{ item.id }}" aria-selected="{% if forloop.first %}true{% else %}false{% endif %}">{{ item }}</a>
+            {% endfor %}
+        </div>
+        <div class="tab-content flex-grow-1 p-1" id="v-pills-tabContent">
+            {% for item in object.problems.all %}
+                <div class="tab-pane fade  {% if forloop.first %}show active{% endif %} " id="v-pills-{{ item.id }}" role="tabpanel" aria-labelledby="v-pills-{{ item.id }}-tab">
+                <div class="row">
+                    <div class="col">
+                        <h4>{{ item.title }}</h4>
+                    </div>
+                    <div class="col">
+                        <div class="btn-group float-right " role="group" aria-label="problem_buttons">
+                            <button type="button" class="btn btn-primary btn-sm">Edit Problem
+                            </button>
+                            <button type="button" class="btn btn-primary btn-sm">Remove Problem
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <code>
+                        <pre>{{ item.skeleton | linenumbers | linebreaks }}</pre>
+                    </code>
+                </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <footer>
+    {% if object.code %}<p class="small">This workshop currently has code {{ object.code }}</p>{% endif %}
+    </footer>
 {% endblock content %}

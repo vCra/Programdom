@@ -7,8 +7,7 @@ class WorkshopTable(tables.Table):
 
     class Meta:
         model = WorkshopSession
-        exclude = ['id']
+        fields = ['title', 'active']
 
+    active = tables.BooleanColumn()
     title = tables.LinkColumn()
-    start_time = tables.DateTimeColumn()
-    end_time = tables.DateTimeColumn()

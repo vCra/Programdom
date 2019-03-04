@@ -4,6 +4,8 @@ import logging
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
 
+from programdom.models import WorkshopSession
+
 
 class StudentWaitingConsumer(WebsocketConsumer):
 
@@ -42,15 +44,16 @@ class StudentWaitingConsumer(WebsocketConsumer):
 
 class WorkshopControlConsumer(WebsocketConsumer):
 
+    workshop_code = None
+
     def connect(self):
         """
         Called when a connection is attempted
         :return:
         """
-        session = self.scope["session"]
         # TODO: Check if this Account is actually allowed to interact with this workshop
+        self.workshop_code = self.scope['url_route']['kwargs']['id']
 
-        self.workshop_code = session.get("current_workshop_id", None)
         if self.workshop_code:
             self.accept()
         else:
@@ -68,4 +71,12 @@ class WorkshopControlConsumer(WebsocketConsumer):
 
     def change_problem(self, text_data: dict):
         async_to_sync(self.channel_layer.group_send)(f"wait_workshop_{self.workshop_code}", {"type": "problem.ready", "problem": text_data.get("problem_id")})
-        print("test")
+
+    def workshop_toggle(self, text_data: dict):
+        workshop_id = text_data.get("workshop_id")
+        workshop = WorkshopSession.objects.get(id=workshop_id)
+        if text_data.get("workshop_state"):
+            workshop.start()
+        else:
+            workshop.end()
+        self.send(text_data=json.dumps(text_data))

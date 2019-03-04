@@ -241,3 +241,4 @@ ASGI_APPLICATION = "config.routing.application"
 
 MOOSHAK_ENDPOINT = "http://localhost:8081/mooshak/api"
 
+OPEN_URLS  = ["/admin/login/"]

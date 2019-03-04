@@ -27,7 +27,7 @@ var pathsConfig = function (appName) {
         coreuiSass: vendorsRoot + '/@coreui/coreui/scss',
         font_awesomeSass: vendorsRoot + '/font-awesome/scss',
         vendorsJs: [
-            vendorsRoot + 'jquery/dist/jquery.slim.js',
+            vendorsRoot + 'jquery/dist/jquery.js',
             vendorsRoot + 'popper.js/dist/umd/popper.js',
             vendorsRoot + 'bootstrap/dist/js/bootstrap.js',
         ],

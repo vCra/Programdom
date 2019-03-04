@@ -1,6 +1,8 @@
 import random
 import string
 
+from asgiref.sync import async_to_sync
+from channels.layers import get_channel_layer
 from django.contrib.auth import get_user_model
 from django.contrib.auth.models import Group
 from django.contrib.postgres.fields import JSONField
@@ -15,13 +17,12 @@ class Problem(models.Model):
     A single problem
     """
     mooshak_id = models.CharField(max_length=255)
+    title = models.CharField(max_length=255, blank=True, null=True)
+    skeleton = models.TextField(blank=True, null=True)
 
-    def set_active(self, workshop_code):
-        """
-        Sets the current problem as active for the current workshop. Additionally, it will broadcast the change to all clients.
-        :param workshop_code:
-        :return:
-        """
+    def __str__(self):
+        return self.title
+
 
 class WorkshopSession(models.Model):
     """
@@ -29,21 +30,32 @@ class WorkshopSession(models.Model):
     """
     code = models.CharField(max_length=8, null=True)
     problems = models.ManyToManyField(Problem, blank=True)
+    title = models.CharField(max_length=255, blank=True, null=True)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
+
+    @property
+    def active(self):
+        return self.code is not None
 
     def end(self):
-        """
+        """s
         Ends the session, by removing the session code
         """
         self.code = None
+        self.save()
 
     def start(self):
         """
         Sets the session as running, by setting a code
         """
         self.code = "".join(random.choices(string.ascii_uppercase + string.digits, k=8))
+        self.save()
 
     def get_absolute_url(self):
         return reverse('workshop_detail', kwargs={'pk': self.id})
+
+    def __str__(self):
+        return self.title
 
 
 class Submission(models.Model):

@@ -1,0 +1,75 @@
+{% extends "base.html" %}
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'workshop_list' %}">Workshops</a></li>
+    <li class="breadcrumb-item "><a href="{% url 'workshop_detail' object.id %}">{{ object }}</a></li>
+    <li class="breadcrumb-item active">Present</li>
+{% endblock breadcrumbs %}
+{% block content %}
+<div class="row">
+    <div class="col">
+        <h3>{{ object}} <span class="badge badge-dark {% if not object.active %}d-none{% endif %}" id="badge_in_progress">In Progress</span></h3>
+    </div>
+    <div class="col">
+        <div class="btn-group float-right" role="group" aria-label="Workshop Buttons">
+            {% if not object.active %}
+                <input type="hidden" id="input_toggle_value" value="true">
+                <button class="btn btn-success" id="btn_workshop_toggle">Begin Workshop</button>
+            {% else %}
+                <input type="hidden" id="input_toggle_value" value="false">
+                <button class="btn btn-danger"  id="btn_workshop_toggle">End Workshop</button>
+            {% endif %}
+        </div>
+    </div>
+</div>
+    <div class="row">
+    </div>
+{% endblock %}
+{% block javascript %}
+    {{ block.super }}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js">
+    </script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
+
+    <script>
+        var chatSocket = new WebSocket(
+            'ws://' + window.location.host +
+            '/ws/manage_workshop/'+ {{ object.id }} + '/');
+
+        chatSocket.onmessage = function(e) {
+            var data = JSON.parse(e.data)
+            var action = data["action"];
+
+            if (action === "workshop_toggle"){
+                if (data.workshop_state) {
+                    toastr.info("This workshop has now started");
+                    $("#btn_workshop_toggle").removeClass("btn-success").addClass("btn-danger").text("End Workshop");
+                    $("#input_toggle_value").val("false");
+                    $("#badge_in_progress").removeClass("d-none")
+                } else {
+                    toastr.info("This workshop has now ended");
+                    $("#btn_workshop_toggle").removeClass("btn-danger").addClass("btn-success").text("Begin Workshop");
+                    $("#input_toggle_value").val("true")
+                    $("#badge_in_progress").addClass("d-none")
+                }
+            }
+        };
+
+        chatSocket.onclose = function(e) {
+            console.error('Chat socket closed unexpectedly');
+        };
+
+
+        $("#btn_workshop_toggle").click(function(){
+            chatSocket.send(JSON.stringify({
+                "action": "workshop_toggle",
+                "workshop_id": {{ object.id }},
+                "workshop_state": $("#input_toggle_value").val() === 'true'
+            }))
+
+        })
+
+
+
+    </script>
+{% endblock %}

@@ -7,5 +7,5 @@ e.g. a student which is using a code to access
 """
 websocket_urlpatterns = [
     path("waiting/", StudentWaitingConsumer),
-    path("manage_workshop/", WorkshopControlConsumer)
+    path("manage_workshop/<int:id>/", WorkshopControlConsumer)
 ]

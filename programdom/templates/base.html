@@ -45,8 +45,16 @@
         <ul class="nav navbar-nav d-md-down-none">
             <li class="nav-item px-3">
                 <a class="nav-link" href="#">Home</a>
-            <li class="nav-item px-3">
-            </i><a class="nav-link" href="#">{{ user }}</a>
+            <li class="nav-item dropdown px-3">
+                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    {{ user }}
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" href="{% url 'users:logout' %}">Logout</a>
+                    <a class="dropdown-item" href="#">Another action</a>
+                    <div class="dropdown-divider"></div>
+                    <a class="dropdown-item" href="#">Something else here</a>
+                </div>
             </li>
         </ul>
 
