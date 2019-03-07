@@ -6,23 +6,32 @@
     <li class="breadcrumb-item active">Present</li>
 {% endblock breadcrumbs %}
 {% block content %}
-<div class="row">
-    <div class="col">
-        <h3>{{ object}} <span class="badge badge-dark {% if not object.active %}d-none{% endif %}" id="badge_in_progress">In Progress</span></h3>
-    </div>
-    <div class="col">
-        <div class="btn-group float-right" role="group" aria-label="Workshop Buttons">
-            {% if not object.active %}
-                <input type="hidden" id="input_toggle_value" value="true">
-                <button class="btn btn-success" id="btn_workshop_toggle">Begin Workshop</button>
-            {% else %}
-                <input type="hidden" id="input_toggle_value" value="false">
-                <button class="btn btn-danger"  id="btn_workshop_toggle">End Workshop</button>
-            {% endif %}
+    <div class="row">
+        <div class="col">
+            <h3>{{ object}} = {{ object.code }} <span class="badge badge-dark {% if not object.active %}d-none{% endif %}" id="badge_in_progress">In Progress</span></h3>
+        </div>
+        <div class="col">
+            <div class="btn-group float-right" role="group" aria-label="Workshop Buttons">
+                {% if not object.active %}
+                    <input type="hidden" id="input_toggle_value" value="true">
+                    <button class="btn btn-success" id="btn_workshop_toggle">Begin Workshop</button>
+                {% else %}
+                    <input type="hidden" id="input_toggle_value" value="false">
+                    <button class="btn btn-danger"  id="btn_workshop_toggle">End Workshop</button>
+                {% endif %}
+            </div>
         </div>
     </div>
-</div>
     <div class="row">
+{#        <label class="" for="btn-group-problem-select">Select Active Problem: </label>#}
+        <div class="btn-group btn-group-sm" role="group" id="btn-group-problem-select" aria-label="Problem Select">
+        {% for problem in object.problems.all %}
+            <button type="button" class="btn btn-secondary problem-button" value="{{ problem.id }}">{{ problem }}</button>
+        {% endfor %}
+        </div>
+    </div>
+    <div class="row">
+        <canvas id="myChart"></canvas>
     </div>
 {% endblock %}
 {% block javascript %}
@@ -30,6 +39,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js">
     </script>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 
     <script>
         var chatSocket = new WebSocket(
@@ -69,6 +80,33 @@
 
         })
 
+        $(".problem-button").click(function(event){
+            chatSocket.send(JSON.stringify({
+                "action": "problem_select",
+                "workshop_id": {{ object.id }},
+                "problem_id": event.target.value
+            }))
+        })
+
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var chart = new Chart(ctx, {
+            // The type of chart we want to create
+            type: 'bar',
+
+            // The data for our dataset
+            data: {
+                labels: ["Unattempted", "Failed", "Passed"],
+                datasets: [{
+                    label: "Users",
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: [0, 0, 0],
+                }]
+            },
+
+            // Configuration options go here
+            options: {}
+        });
 
 
     </script>

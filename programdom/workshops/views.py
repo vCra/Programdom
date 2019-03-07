@@ -14,7 +14,7 @@ from programdom.workshops.tables import WorkshopTable
 def get_current_problem_url(workshop_code):
     problem_id = cache.get(f'workshop_{workshop_code}_current_problem')
     if not problem_id:
-        return reverse("workshop_student_waiting", kwargs={"code": workshop_code})
+        return reverse("workshop_student_waiting", kwargs={"pk": workshop_code})
     return reverse("problem_student", kwargs={"pk": problem_id})
 
 
@@ -47,9 +47,10 @@ class WorkshopStudentRegigsterView(FormView):
 
     def form_valid(self, form):
         code = form.cleaned_data.get("code")
-        self.request.session["current_workshop_id"] = code
+        id = WorkshopSession.objects.get(code=code).id
+        self.request.session["current_workshop_id"] = id
         # TODO: Alter so we don't have to hit the DB, but still be clean
-        return redirect(get_current_problem_url(code))
+        return redirect(get_current_problem_url(id))
 
 
 class WorkshopStudentWaitView(TemplateView):

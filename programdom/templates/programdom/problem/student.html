@@ -12,13 +12,13 @@
     <div class="container-fluid d-flex h-100 flex-column p-0">
         <div class="row">
             <div class="col">
-                <h1>{% block title %}Edit some code{% endblock %}</h1>
+                <h1>{% block title %}{{ problem }}{% endblock %}</h1>
             </div>
         </div>
         <div class="row fill justify-content-start">
 
             <div class="col-lg-9 p-0">
-                <div id="editor"></div>
+                <div id="editor">{{ problem.skeleton }}</div>
             </div>
             <div class="col-lg-3 p-0">
                 <div class="card">
@@ -54,4 +54,22 @@
         editor.setAutoScrollEditorIntoView(true);
 
     </script>
+
+    <script>
+        var chatSocket = new WebSocket(
+            'ws://' + window.location.host +
+            '/ws/waiting/');
+
+        chatSocket.onmessage = function(e) {
+            var data = JSON.parse(e.data);
+            var problem = data['problem'];
+            window.location.replace('{% url 'problem_base' %}'+problem)
+        };
+
+        chatSocket.onclose = function(e) {
+            console.error('Chat socket closed unexpectedly');
+        };
+    </script>
+
+
 {% endblock %}

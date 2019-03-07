@@ -3,6 +3,7 @@ import logging
 
 from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer
+from django.core.cache import cache
 
 from programdom.models import WorkshopSession
 
@@ -44,7 +45,7 @@ class StudentWaitingConsumer(WebsocketConsumer):
 
 class WorkshopControlConsumer(WebsocketConsumer):
 
-    workshop_code = None
+    workshop_id = None
 
     def connect(self):
         """
@@ -52,9 +53,9 @@ class WorkshopControlConsumer(WebsocketConsumer):
         :return:
         """
         # TODO: Check if this Account is actually allowed to interact with this workshop
-        self.workshop_code = self.scope['url_route']['kwargs']['id']
+        self.workshop_id = self.scope['url_route']['kwargs']['id']
 
-        if self.workshop_code:
+        if self.workshop_id:
             self.accept()
         else:
             # If they is no workshop code, close the connection
@@ -69,8 +70,13 @@ class WorkshopControlConsumer(WebsocketConsumer):
         except Exception as e:
             print(e)
 
-    def change_problem(self, text_data: dict):
-        async_to_sync(self.channel_layer.group_send)(f"wait_workshop_{self.workshop_code}", {"type": "problem.ready", "problem": text_data.get("problem_id")})
+    def problem_select(self, text_data: dict):
+        problem = text_data.get("problem_id")
+        try:
+            cache.set(f'workshop_{self.workshop_id}_current_problem', problem)
+            async_to_sync(self.channel_layer.group_send)(f"wait_workshop_{self.workshop_id}", {"type": "problem.ready", "problem": problem})
+        except Exception as e:
+            print(e)
 
     def workshop_toggle(self, text_data: dict):
         workshop_id = text_data.get("workshop_id")

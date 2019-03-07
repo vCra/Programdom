@@ -28,7 +28,7 @@ class WorkshopSession(models.Model):
     """
     A workshop is a single session
     """
-    code = models.CharField(max_length=8, null=True)
+    code = models.CharField(max_length=8, null=True, blank=True)
     problems = models.ManyToManyField(Problem, blank=True)
     title = models.CharField(max_length=255, blank=True, null=True)
     owner = models.ForeignKey(User, on_delete=models.CASCADE, null=True)
