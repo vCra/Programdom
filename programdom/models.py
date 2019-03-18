@@ -19,6 +19,7 @@ class Problem(models.Model):
     mooshak_id = models.CharField(max_length=255)
     title = models.CharField(max_length=255, blank=True, null=True)
     skeleton = models.TextField(blank=True, null=True)
+    options = JSONField(blank=True, default=dict)
 
     def __str__(self):
         return self.title
@@ -63,14 +64,14 @@ class Submission(models.Model):
     A users submission of code for a problem
     """
     problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
     code = models.FileField()
     options = JSONField(blank=True, default=dict)
 
 
 class SubmissionResult(models.Model):
     """
-    The result of a Submission after it has been testsed
+    The result of a Submission after it has been tested
     """
     submission = models.OneToOneField(Submission, on_delete=models.CASCADE)
     status = models.CharField(max_length=2)

@@ -83,3 +83,8 @@ CHANNEL_LAYERS = {
         },
     },
 }
+
+MOOSHAK_ENDPOINT = "http://localhost:8080/mooshak/api/"
+MOOSHAK_CONTEST = "ToPAS14"
+MOOSHAK_USERNAME = "team"
+MOOSHAK_PASSWORD = "team"

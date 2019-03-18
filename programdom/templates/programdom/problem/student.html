@@ -7,6 +7,7 @@
             height: 100%;
         }
     </style>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" type="text/css" rel="stylesheet">
 {% endblock %}
 {% block content %}
     <div class="container-fluid d-flex h-100 flex-column p-0">
@@ -46,30 +47,85 @@
 {% block javascript %}
     {{ block.super }}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.2/ace.js" type="text/javascript"
-            charset="utf-8"></script>
+            charset="utf-8">
+    </script>
     <script>
+        toastr.options = {
+            "closeButton": true,
+            "debug": false,
+            "newestOnTop": true,
+            "progressBar": true,
+            "positionClass": "toast-top-right",
+            "preventDuplicates": false,
+            "onclick": null,
+            "showDuration": "300",
+            "hideDuration": "1000",
+            "timeOut": "5000",
+            "extendedTimeOut": "1000",
+            "showEasing": "swing",
+            "hideEasing": "linear",
+            "showMethod": "fadeIn",
+            "hideMethod": "fadeOut"
+        }
+
         var editor = ace.edit("editor");
-        editor.setTheme("ace/theme/default");
-        editor.session.setMode("ace/mode/javascript");
+        editor.session.setMode("ace/mode/{{ problem.options.language.mode }}");
         editor.setAutoScrollEditorIntoView(true);
 
-    </script>
-
-    <script>
         var chatSocket = new WebSocket(
             'ws://' + window.location.host +
-            '/ws/waiting/');
+            '/ws/student_workshop/');
 
         chatSocket.onmessage = function(e) {
             var data = JSON.parse(e.data);
-            var problem = data['problem'];
-            window.location.replace('{% url 'problem_base' %}'+problem)
+            console.log(data);
+
+            switch(data["type"]){
+                case "problem.ready":
+                    var problem = data['problem'];
+                    window.location.replace('{% url 'problem_base' %}'+problem)
+                    break;
+                case "submission.status":
+                    if (typeof data["message"] === 'string' || data["message"] instanceof String)
+                        toastr[data["notif_type"]](data['message']);
+                    else
+                        toastr[data["notif_type"]](data['message']["status"]);
+
+            }
         };
 
         chatSocket.onclose = function(e) {
             console.error('Chat socket closed unexpectedly');
         };
+
+
+        $('#btn-submit').click(function() {
+            if ('Blob' in window) {
+                var fileName = 'code.{{ problem.options.language.extension }}';
+                var textToWrite = editor.getValue();
+                var codeFile = new Blob([textToWrite], { type: 'text/plain' });
+
+                var formData = new FormData();
+                formData.append('code', codeFile, fileName);
+                {% if user.is_authenticated %}
+                formData.append('user', {{ request.user.id }});
+                {% endif %}
+                formData.append('problem', {{ problem.id }});
+                formData.append('options', JSON.stringify({
+                    session_id: '{{ request.session.session_key }}',
+                    workshop_id: {{ request.session.current_workshop_id }}
+                }));
+
+
+                var request = new XMLHttpRequest();
+                request.open('POST', '{% url "api:submission-list" %}');
+                request.send(formData);
+            } else {
+                alert('Your browser does not support the HTML5 Blob.');
+            }
+        });
+
     </script>
-
-
 {% endblock %}
+
+

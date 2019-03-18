@@ -15,5 +15,8 @@ django-redis
 djangorestframework
 coreapi
 
+
 channels
 channels-redis
+
+mooshak2api

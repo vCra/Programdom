@@ -43,6 +43,29 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 
     <script>
+
+
+        var ctx = document.getElementById('myChart').getContext('2d');
+        var chart = new Chart(ctx, {
+            // The type of chart we want to create
+            type: 'bar',
+
+            // The data for our dataset
+            data: {
+                labels: ["Online", "Attempted", "Passed"],
+                datasets: [{
+                    label: "Users",
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: [0, 0, 0],
+                }]
+            },
+
+            // Configuration options go here
+            options: {}
+        });
+
+
         var chatSocket = new WebSocket(
             'ws://' + window.location.host +
             '/ws/manage_workshop/'+ {{ object.id }} + '/');
@@ -50,7 +73,7 @@
         chatSocket.onmessage = function(e) {
             var data = JSON.parse(e.data)
             var action = data["action"];
-
+            console.log(data);
             if (action === "workshop_toggle"){
                 if (data.workshop_state) {
                     toastr.info("This workshop has now started");
@@ -64,6 +87,11 @@
                     $("#badge_in_progress").addClass("d-none")
                 }
             }
+            if (action === "graph_update"){
+                chart.data.datasets[0].data=[data["count"], data["attempted"], data["passed"]]
+                chart.update()
+            }
+
         };
 
         chatSocket.onclose = function(e) {
@@ -88,25 +116,7 @@
             }))
         })
 
-        var ctx = document.getElementById('myChart').getContext('2d');
-        var chart = new Chart(ctx, {
-            // The type of chart we want to create
-            type: 'bar',
 
-            // The data for our dataset
-            data: {
-                labels: ["Unattempted", "Failed", "Passed"],
-                datasets: [{
-                    label: "Users",
-                    backgroundColor: 'rgb(255, 99, 132)',
-                    borderColor: 'rgb(255, 99, 132)',
-                    data: [0, 0, 0],
-                }]
-            },
-
-            // Configuration options go here
-            options: {}
-        });
 
 
     </script>

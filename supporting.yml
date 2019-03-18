@@ -15,9 +15,9 @@ services:
 
   mooshak:
     image:
-      rigon/mooshak2
+      mooshak2
     ports:
-      - "8081:80"
+      - "8080:8080"
     volumes:
       - local_mooshak_data:/home/mooshak/data
 

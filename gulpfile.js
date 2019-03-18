@@ -22,13 +22,13 @@ var pathsConfig = function (appName) {
     var vendorsRoot = 'node_modules/';
 
     return {
-
         bootstrapSass: vendorsRoot + '/bootstrap/scss',
         coreuiSass: vendorsRoot + '/@coreui/coreui/scss',
         font_awesomeSass: vendorsRoot + '/font-awesome/scss',
         vendorsJs: [
             vendorsRoot + 'jquery/dist/jquery.js',
             vendorsRoot + 'popper.js/dist/umd/popper.js',
+            vendorsRoot + 'toastr/build/toastr.min.js',
             vendorsRoot + 'bootstrap/dist/js/bootstrap.js',
         ],
         vendorsFonts: [
