@@ -20,3 +20,5 @@ channels
 channels-redis
 
 mooshak2api
+
+aiohttp

@@ -64,6 +64,8 @@ class StudentWorkshopConsumer(JsonWebsocketConsumer):
 
             # Add a mapping between this consumer and the session ID, to make it easier to send messages to
             cache.set(f"session_{self.session.session_key}_channel-name", self.channel_name)
+            # Create a status for this consumer, to store submission data
+            cache.set(f"session_{self.session.session_key}_status", "not_attempted")
 
             # Add 1 to the number of students connected
             cache.incr(f'workshop_{self.workshop_code}_users_count')
@@ -84,7 +86,6 @@ class StudentWorkshopConsumer(JsonWebsocketConsumer):
         # -1 to no of students connected
         cache.decr(f'workshop_{self.workshop_code}_users_count')
         async_to_sync(self.channel_layer.group_send)(f"workshop_{self.workshop_code}_control", {"type": "graph.update"})
-
 
     def problem_ready(self, event):
         """
