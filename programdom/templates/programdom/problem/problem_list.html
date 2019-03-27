@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load i18n %}
+{% block title %}{% trans "Problems" %}{% endblock title %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+    <li class="breadcrumb-item active">Problems</li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <h3>Problems</h3>
+        </div>
+        <div class="col">
+            <div class="btn-group float-right" role="group" aria-label="Problem Buttons">
+                <a class="btn btn-primary" href="{% url 'problem_new' %}">Add new Problem</a>
+            </div>
+        </div>
+    </div>
+    <div class="card-columns">
+        {% for problem in object_list %}
+            <div class="card shadow">
+                <div class="card-body">
+                    <h5 class="card-title mb-0">{{ problem.title }}</h5>
+                    <a href="{% url "problem_detail" problem.id %}" class="btn btn-primary">Go to Problem</a>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock content %}

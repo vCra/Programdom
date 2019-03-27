@@ -15,7 +15,7 @@
         </div>
         <div class="col">
             <div class="btn-group float-right" role="group" aria-label="Workshop Buttons">
-                <a class="btn btn-primary" href="{% url 'problem_new' %}">Edit Problems</a>
+                <a class="btn btn-primary" href="{% url 'workshop_problems' object.id %}">Edit Problems</a>
                 <a class="btn btn-primary" href="{% url 'workshop_present' object.id %}">Present</a>
             </div>
         </div>
@@ -28,7 +28,7 @@
         </div>
         <div class="tab-content flex-grow-1 p-1" id="v-pills-tabContent">
             {% for item in object.problems.all %}
-                <div class="tab-pane fade  {% if forloop.first %}show active{% endif %} " id="v-pills-{{ item.id }}" role="tabpanel" aria-labelledby="v-pills-{{ item.id }}-tab">
+                <div class="tab-pane  {% if forloop.first %}show active{% endif %} " id="v-pills-{{ item.id }}" role="tabpanel" aria-labelledby="v-pills-{{ item.id }}-tab">
                 <div class="row">
                     <div class="col">
                         <h4>{{ item.title }}</h4>

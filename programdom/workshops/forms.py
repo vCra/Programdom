@@ -36,4 +36,13 @@ class WorkshopSessionEntryForm(forms.Form):
         return cleaned_code
 
 
+class WorkshopProblemsForm(forms.ModelForm):
 
+    def __init__(self, *args, **kwargs):
+        super(WorkshopProblemsForm, self).__init__(*args, **kwargs)
+        self.helper = FormHelper(self)
+        self.helper.add_input(Submit('submit', 'Submit', css_class='btn-primary'))
+
+    class Meta:
+        model = WorkshopSession
+        fields = ['problems']

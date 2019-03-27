@@ -1,3 +1,5 @@
+import os
+
 import aiofiles as aiofiles
 from asgiref.sync import sync_to_async
 from channels.consumer import AsyncConsumer
@@ -32,7 +34,6 @@ class ProgramdomBridgeConsumer(AsyncConsumer):
 
         url = message["code_url"]
 
-
         # Our old system downloaded files and then sent them off. We will probably go back to this once in prod and have
         # an actual object storage system working. However, ATM we can just use the local files.
 
@@ -44,9 +45,9 @@ class ProgramdomBridgeConsumer(AsyncConsumer):
         # We can just get the file
         try:
             # TODO: This is horrible, and should be changed
-            async with aiofiles.open(str(settings.APPS_DIR(url[1:])), mode='rb') as f:
-                self.evaluation = await sync_to_async(problem.evaluate)(client, await f.read())
-
+            async with aiofiles.opeen(str(settings.APPS_DIR(url[1:])), mode='rb') as f:
+                file = (os.path.basename(url), await f.read())
+            self.evaluation = await sync_to_async(problem.evaluate)(client, file)
         except Exception as e:
             message.update({
                 "notif_type": "error",
@@ -57,14 +58,24 @@ class ProgramdomBridgeConsumer(AsyncConsumer):
                 "notif_type": self.evaluation.notify_type,
                 "message": self.evaluation.as_json(),
             })
-        message.update({"type":"submission.status"})
-        channel_name = await cache.get(f"session_{message['session_id']}_channel-name")
+        message.update({"type": "submission.status"})
+        channel_name = cache.get(f"session_{message['session_id']}_channel-name")
+
         await channel_layer.send(channel_name, message)
 
-        status = await cache.get(f"session_{message['session_id']}_status")
-        notify_type = message["notif_type"]
+        await sync_to_async(self.set_message_kv)(message)
 
-        #TODO: Sort this mess out - make some form of cache object class IDK
+        await channel_layer.group_send(f"workshop_{message['workshop_id']}_control", {"type": "graph.update"})
+
+    def set_message_kv(self, message):
+        """
+        Sets cache variables based on message properties
+        :param message:
+        :return:
+        """
+        status = cache.get(f"session_{message['session_id']}_status")
+        notify_type = message["notif_type"]
+        # TODO: Sort this mess out - make some form of cache object class IDK
         if status == "not_attempted":
             if notify_type == "success":
                 cache.incr(f"workshop_{message['workshop_id']}_users_passed")
@@ -79,4 +90,4 @@ class ProgramdomBridgeConsumer(AsyncConsumer):
                 new_status = cache.set(f"session_{message['session_id']}_status", "success")
                 cache.set(f"session_{message['session_id']}_status", new_status)
 
-        await channel_layer.group_send(f"workshop_{message['workshop_id']}_control", {"type": "graph.update"})
+

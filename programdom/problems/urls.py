@@ -1,10 +1,10 @@
 from django.urls import path
-from django.views import View
 
-from programdom.problems.views import ProblemStudentView
+from programdom.problems.views import ProblemStudentView, ProblemListView, ProblemDetailView, ProblemDeleteView
 
 urlpatterns = [
-    path("", View.as_view(), name="problem_base"),
-    path("<int:pk>/", ProblemStudentView.as_view(), name="problem_student"),
+    path("", ProblemListView.as_view(), name="problem_list"),
+    path("<int:pk>/", ProblemDetailView.as_view(), name="problem_detail"),
+    path("<int:pk>/delete/", ProblemDeleteView.as_view(), name="problem_delete"),
     path("new/", ProblemStudentView.as_view(), name="problem_new"),
 ]

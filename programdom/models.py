@@ -20,10 +20,13 @@ class Problem(models.Model):
     title = models.CharField(max_length=255, blank=True, null=True)
     skeleton = models.TextField(blank=True, null=True)
     options = JSONField(blank=True, default=dict)
+    owner = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
 
     def __str__(self):
         return self.title
 
+    def get_absolute_url(self):
+        return reverse('problem_detail', kwargs={'pk': self.id})
 
 class WorkshopSession(models.Model):
     """
@@ -78,4 +81,3 @@ class SubmissionResult(models.Model):
     result_data = JSONField(blank=True, default=dict)
     std_out = models.FileField()
     std_err = models.FileField()
-    

@@ -2,12 +2,12 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.core.cache import cache
 from django.shortcuts import redirect
 from django.urls import reverse
-from django.views.generic import DetailView, CreateView, FormView, TemplateView
+from django.views.generic import DetailView, CreateView, FormView, TemplateView, UpdateView
 from django_filters.views import FilterView
 from django_tables2 import SingleTableMixin
 
 from programdom.models import WorkshopSession
-from programdom.workshops.forms import WorkshopSessionEntryForm, WorkshopsForm
+from programdom.workshops.forms import WorkshopSessionEntryForm, WorkshopsForm, WorkshopProblemsForm
 from programdom.workshops.tables import WorkshopTable
 
 
@@ -60,3 +60,11 @@ class WorkshopStudentWaitView(TemplateView):
 class WorkshopPresentView(DetailView):
     model = WorkshopSession
     template_name = "programdom/workshop/present.html"
+
+
+class WorkshopEditProblemsView(SuccessMessageMixin, UpdateView):
+    form_class = WorkshopProblemsForm
+    template_name = "programdom/workshop/workshop_form_problems.html"
+    model = WorkshopSession
+    success_message = "The list of problems for this workshop has been updated!"
+

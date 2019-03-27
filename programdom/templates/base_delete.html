@@ -1,0 +1,19 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="row">
+        <div class="col-md-6 offset-md-3">
+            <h2>{% block title %}Delete {{ object }}?{% endblock title %}</h2>
+
+            <form method="post">{% csrf_token %}
+                <p>Are you sure you want to delete "{{ object }}"?</p>
+                <div class="float-md-right">
+                    <a class="btn btn-secondary" href="{{ object.get_absolute_url }}">Cancel</a>
+                    <input class="btn btn-danger" type="submit" value="Delete">
+                </div>
+
+            </form>
+        </div>
+
+    </div>
+{% endblock content %}

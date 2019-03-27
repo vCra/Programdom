@@ -4,6 +4,7 @@ import logging
 from asgiref.sync import sync_to_async
 from django.conf import settings
 import mooshak2api as api
+from requests import HTTPError
 
 logger = logging.getLogger(__name__)
 """
@@ -12,7 +13,7 @@ We need to ensure that client is always active
 """
 
 # Refresh interval - 60 seconds * n minutes
-refresh_interval = 60 * 15
+refresh_interval = 60 * 1
 
 client = api.login(
     settings.MOOSHAK_ENDPOINT,
@@ -31,8 +32,11 @@ async def refresh_token():
     while True:
         await asyncio.sleep(refresh_interval)
         logger.info("Refreshing Token")
-        await sync_to_async(client.refresh)()
-        logger.info("Token Refreshed")
+        try:
+            await sync_to_async(client.refresh)()
+            logger.info("Token Refreshed")
+        except HTTPError:
+            client = api.login()
 
 try:
     loop = asyncio.get_event_loop()
