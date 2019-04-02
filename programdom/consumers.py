@@ -5,7 +5,7 @@ from asgiref.sync import async_to_sync
 from channels.generic.websocket import WebsocketConsumer, JsonWebsocketConsumer
 from django.core.cache import cache
 
-from programdom.models import WorkshopSession
+from programdom.models import Workshop
 
 
 class StudentWaitingConsumer(WebsocketConsumer):
@@ -102,6 +102,7 @@ class StudentWorkshopConsumer(JsonWebsocketConsumer):
              - a queued task for a submission returning a result
         :param event: JSON event
         """
+        event.pop("source_code")
         self.send_json(event)
 
 
@@ -146,7 +147,7 @@ class WorkshopControlConsumer(WebsocketConsumer):
 
     def workshop_toggle(self, text_data: dict):
         workshop_id = text_data.get("workshop_id")
-        workshop = WorkshopSession.objects.get(id=workshop_id)
+        workshop = Workshop.objects.get(id=workshop_id)
         # TODO: set active workshop KV
         if text_data.get("workshop_state"):
             workshop.start()

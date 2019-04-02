@@ -71,7 +71,7 @@
             '/ws/manage_workshop/'+ {{ object.id }} + '/');
 
         chatSocket.onmessage = function(e) {
-            var data = JSON.parse(e.data)
+            var data = JSON.parse(e.data);
             var action = data["action"];
             console.log(data);
             if (action === "workshop_toggle"){
@@ -83,12 +83,12 @@
                 } else {
                     toastr.info("This workshop has now ended");
                     $("#btn_workshop_toggle").removeClass("btn-danger").addClass("btn-success").text("Begin Workshop");
-                    $("#input_toggle_value").val("true")
+                    $("#input_toggle_value").val("true");
                     $("#badge_in_progress").addClass("d-none")
                 }
             }
             if (action === "graph_update"){
-                chart.data.datasets[0].data=[data["count"], data["attempted"], data["passed"]]
+                chart.data.datasets[0].data=[data["count"], data["attempted"], data["passed"]];
                 chart.update()
             }
 
@@ -106,7 +106,7 @@
                 "workshop_state": $("#input_toggle_value").val() === 'true'
             }))
 
-        })
+        });
 
         $(".problem-button").click(function(event){
             chatSocket.send(JSON.stringify({

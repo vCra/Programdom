@@ -23,8 +23,7 @@ var pathsConfig = function (appName) {
 
     return {
         bootstrapSass: vendorsRoot + '/bootstrap/scss',
-        coreuiSass: vendorsRoot + '/@coreui/coreui/scss',
-        font_awesomeSass: vendorsRoot + '/font-awesome/scss',
+        font_awesomeSass: vendorsRoot + '/@fortawesome/fontawesome-free/scss',
         vendorsJs: [
             vendorsRoot + 'jquery/dist/jquery.js',
             vendorsRoot + 'popper.js/dist/umd/popper.js',
@@ -32,7 +31,7 @@ var pathsConfig = function (appName) {
             vendorsRoot + 'bootstrap/dist/js/bootstrap.js',
         ],
         vendorsFonts: [
-            vendorsRoot + 'font-awesome/fonts/*',
+            vendorsRoot + '@fortawesome/fontawesome-free/webfonts/*',
         ],
         app: this.app,
         templates: this.app + '/templates',
@@ -56,7 +55,6 @@ gulp.task('styles', function () {
         .pipe(sass({
             includePaths: [
                 paths.bootstrapSass,
-                paths.coreuiSass,
                 paths.font_awesomeSass,
                 paths.sass
             ]

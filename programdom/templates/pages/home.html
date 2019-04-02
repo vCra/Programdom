@@ -2,3 +2,24 @@
 {% block breadcrumbs %}
     <li class="breadcrumb-item active">Home</li>
 {% endblock breadcrumbs %}
+{% block content %}
+    <div class="card-deck">
+      <div class="card bg-dark shadow-lg text-white">
+        <div class="card-body">
+          <h4 class="card-title">Workshops</h4>
+          <p class="card-text">Create, manage and present Workshops. A workshop is a collection of problems that can be
+          presented to students.</p>
+            <a class="btn btn-secondary float-md-right" href="{% url 'workshop_list' %}"
+               role="button">Workshops</a>
+        </div>
+      </div>
+      <div class="card shadow-lg bg-dark text-white">
+        <div class="card-body">
+          <h4 class="card-title">Problems </h4>
+          <p class="card-text">Create and edit coding problems, which can be assigned to Workshops</p>
+            <a class="btn btn-secondary float-md-right" href="{% url 'problem_list' %}"
+               role="button">Problems</a>
+        </div>
+      </div>
+    </div>
+{% endblock %}

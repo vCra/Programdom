@@ -1,17 +1,18 @@
 from crispy_forms.helper import FormHelper
 from crispy_forms.layout import Submit
 from django import forms
-from programdom.models import WorkshopSession
+from programdom.models import Workshop
 
 
 class WorkshopsForm(forms.ModelForm):
+    
     def __init__(self, *args, **kwargs):
         super(WorkshopsForm, self).__init__(*args, **kwargs)
         self.helper = FormHelper(self)
         self.helper.add_input(Submit('submit', 'Submit', css_class='btn-primary'))
 
     class Meta:
-        model = WorkshopSession
+        model = Workshop
         fields = ['title']
 
 
@@ -31,7 +32,7 @@ class WorkshopSessionEntryForm(forms.Form):
         """
 
         cleaned_code = self.cleaned_data["code"]
-        if not WorkshopSession.objects.filter(code__exact=cleaned_code).exists():
+        if not Workshop.objects.filter(code__exact=cleaned_code).exists():
             raise forms.ValidationError("The code is incorrect!")
         return cleaned_code
 
@@ -44,5 +45,5 @@ class WorkshopProblemsForm(forms.ModelForm):
         self.helper.add_input(Submit('submit', 'Submit', css_class='btn-primary'))
 
     class Meta:
-        model = WorkshopSession
+        model = Workshop
         fields = ['problems']

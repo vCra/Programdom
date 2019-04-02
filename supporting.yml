@@ -12,14 +12,29 @@ services:
       - local_postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+    env_file:
+      - .envs/.local/.postgres
 
-  mooshak:
-    image:
-      mooshak2
+
+  #  mooshak is a pos - for reasons why please read my report
+#  mooshak:
+#    image:
+#      mooshak2
+#    ports:
+#      - "8080:8080"
+#    volumes:
+#      - local_mooshak_data:/home/mooshak/data
+
+
+  judgezero:
+    image: judge0/api
     ports:
-      - "8080:8080"
-    volumes:
-      - local_mooshak_data:/home/mooshak/data
+      - "3000:3000"
+    env_file:
+      - .envs/.local/.judge0
+      - .envs/.local/.redis
+      - .envs/.local/.postgres
+
 
   redis:
     image:

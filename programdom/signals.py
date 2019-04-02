@@ -28,7 +28,7 @@ def save_submission(sender, instance, **kwargs):
     async_to_sync(channel_layer.send)(
         "mooshakbridge", {
             "type": "evaluate",
-            "problem_id": instance.problem.mooshak_id,
+            "problem_id": instance.problem.id,
             "code_url": instance.code.url,
             "session_id": instance.options["session_id"],
             "workshop_id": instance.options["workshop_id"],

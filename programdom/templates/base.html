@@ -13,11 +13,6 @@
       <script src="https://cdnjs.cloudflare.com/ajax/libs/html5shiv/3.7.3/html5shiv.min.js"></script>
     <![endif]-->
 
-    <link rel="icon" href="{% static 'images/favicons/favicon.ico' %}">
-    <link rel="icon" type="image/png" href="{% static 'images/favicons/favicon-16x16.png' %}" sizes="16x16">
-    <link rel="icon" type="image/png" href="{% static 'images/favicons/favicon-32x32.png' %}" sizes="32x32">
-    <link rel="icon" type="image/png" href="{% static 'images/favicons/favicon-96x96.png' %}" sizes="96x96">
-
 
     {% block css %}
 
@@ -33,73 +28,50 @@
 
 </head>
 {% block body %}
-<body class="app header-fixed sidebar-fixed aside-menu-fixed sidebar-lg-show">
-    <header class="app-header navbar">
-        <button class="navbar-toggler sidebar-toggler d-lg-none mr-auto" type="button" data-toggle="sidebar-show">
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="{% url 'home' %}">Programdom</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="#">
-            Programdom
-        </a>
-
-        <ul class="nav navbar-nav d-md-down-none">
-            <li class="nav-item px-3">
-                <a class="nav-link" href="#">Home</a>
-            <li class="nav-item dropdown px-3">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    {{ user }}
-                </a>
-                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" href="{% url 'users:logout' %}">Logout</a>
-                    <a class="dropdown-item" href="#">Another action</a>
-                    <div class="dropdown-divider"></div>
-                    <a class="dropdown-item" href="#">Something else here</a>
-                </div>
-            </li>
-        </ul>
-
-    </header>
-    <div class="app-body">
-        <div class="sidebar">
-            <nav class="sidebar-nav">
-                <ul class="nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'home' %}">
-                            <i class="fa fa-home nav-icon"></i> Home
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{% url 'workshop_list' %}">
-                            <i class="nav-icon fa fa-database"></i> Workshops</a>
-                    </li>
-
-                    </li>
-                </ul>
-            </nav>
-            <button class="sidebar-minimizer sidebar-toggler brand-minimizer" type="button"></button>
+    
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav mr-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'workshop_list' %}"><i class="fas fa-chalkboard-teacher mr-2"></i>Workshops <span
+                            class="sr-only">(current)</span></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="{% url 'problem_list' %}"><i class="fas fa-laptop-code mr-2"></i>Problems</a>
+                </li>
+            </ul>
         </div>
-        <main class="main">
-            <!-- Breadcrumb-->
-            <ol class="breadcrumb">
-                {% block breadcrumbs %}
-                {% endblock breadcrumbs %}
-            </ol>
-            {% block messages %}
-                <div class="container-fluid">
-                {% for message in messages %}
-                    <div class="alert alert-{{ message.tags }} alert-dismissable">
-                        <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&#215;</button>
-                        {{ message }}
-                    </div>
-                {% endfor %}
-                </div>
-            {% endblock messages %}
-            <div class="container-fluid">
-                {% block content %}{% endblock %}
-            </div>
-        </main>
+    </nav>
 
-    </div>
+
+
+    <main class="main">
+        <!-- Breadcrumb-->
+        <ol class="breadcrumb">
+            {% block breadcrumbs %}
+            {% endblock breadcrumbs %}
+        </ol>
+        {% block messages %}
+            <div class="container-fluid">
+            {% for message in messages %}
+                <div class="alert alert-{{ message.tags }} alert-dismissable">
+                    <button type="button" class="close" data-dismiss="alert" aria-hidden="true">&#215;</button>
+                    {{ message }}
+                </div>
+            {% endfor %}
+            </div>
+        {% endblock messages %}
+        <div class="container-fluid">
+            {% block content %}{% endblock %}
+        </div>
+    </main>
+
+
 
 
     {% block modal %}{% endblock modal %}

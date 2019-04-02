@@ -27,11 +27,11 @@
             '/ws/waiting/');
 
         chatSocket.onmessage = function(e) {
-            $(".progress-bar").removeClass("progress-bar-animated").removeClass("progress-bar-striped").addClass("bg-success")
+            $(".progress-bar").removeClass("progress-bar-animated").removeClass("progress-bar-striped").addClass("bg-success");
             var data = JSON.parse(e.data);
             console.log(data);
             var problem = data['problem'];
-            window.location.replace('{% url 'problem_base' %}'+problem)
+            window.location.replace('{% url 'problem_list'%}' + problem + "/student/")
         };
 
         chatSocket.onclose = function(e) {

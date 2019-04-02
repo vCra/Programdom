@@ -6,7 +6,7 @@ from django.views.generic import DetailView, CreateView, FormView, TemplateView,
 from django_filters.views import FilterView
 from django_tables2 import SingleTableMixin
 
-from programdom.models import WorkshopSession
+from programdom.models import Workshop
 from programdom.workshops.forms import WorkshopSessionEntryForm, WorkshopsForm, WorkshopProblemsForm
 from programdom.workshops.tables import WorkshopTable
 
@@ -19,19 +19,19 @@ def get_current_problem_url(workshop_code):
 
 
 class WorkshopDetailView(DetailView):
-    model = WorkshopSession
+    model = Workshop
     template_name = "programdom/workshop/detail.html"
 
 
-class WorkshopCreateView(SuccessMessageMixin, CreateView):
-    model = WorkshopSession
+class WorkshopCreateView(CreateView):
+    model = Workshop
     form_class = WorkshopsForm
     success_message = "A new Workshop has been created successfully! Remember to assign it to any modules"
     template_name = "programdom/workshop/workshop_form.html"
 
 
 class WorkshopListView(SingleTableMixin, FilterView):
-    model = WorkshopSession
+    model = Workshop
     table_class = WorkshopTable
     template_name = "programdom/workshop/workshop_list.html"
 
@@ -47,7 +47,7 @@ class WorkshopStudentRegigsterView(FormView):
 
     def form_valid(self, form):
         code = form.cleaned_data.get("code")
-        id = WorkshopSession.objects.get(code=code).id
+        id = Workshop.objects.get(code=code).id
         self.request.session["current_workshop_id"] = id
         # TODO: Alter so we don't have to hit the DB, but still be clean
         return redirect(get_current_problem_url(id))
@@ -58,13 +58,13 @@ class WorkshopStudentWaitView(TemplateView):
 
 
 class WorkshopPresentView(DetailView):
-    model = WorkshopSession
+    model = Workshop
     template_name = "programdom/workshop/present.html"
 
 
 class WorkshopEditProblemsView(SuccessMessageMixin, UpdateView):
     form_class = WorkshopProblemsForm
     template_name = "programdom/workshop/workshop_form_problems.html"
-    model = WorkshopSession
+    model = Workshop
     success_message = "The list of problems for this workshop has been updated!"
 

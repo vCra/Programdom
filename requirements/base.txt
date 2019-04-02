@@ -19,6 +19,6 @@ coreapi
 channels
 channels-redis
 
-mooshak2api
+judge0api
 
 aiohttp

@@ -21,33 +21,44 @@
             <div class="col-lg-9 p-0">
                 <div id="editor">{{ problem.skeleton }}</div>
             </div>
-            <div class="col-lg-3 p-0">
-                <div class="card">
-                    <div class="card-body">
-{#                        <h4 class="card-title">Test Results</h4>#}
-{#                        <dl class="row">#}
-{#                            <dt class="col-10">Test One</dt>#}
-{#                            <dd class="col-2"><i class="fa fa-check text-primary" aria-hidden="true"></i></dd>#}
-{#                            <dt class="col-10">Test Two</dt>#}
-{#                            <dd class="col-2"><i class="fa fa-ban text-danger" aria-hidden="true"></i></dd>#}
-{#                            <dt class="col-10">Test Three</dt>#}
-{#                            <dd class="col-2"><i class="fa fa-question text-warning" aria-hidden="true"></i></dd>#}
-{#                            <dt class="col-10">Test Four</dt>#}
-{#                            <dd class="col-2"><i class="fa fa-times text-danger" aria-hidden="true"></i></dd>#}
-{#                        </dl>#}
+            <div class="col-lg-3">
+
                         <button type="button" name="submit_code" id="btn-submit"
                                 class="btn btn-primary btn-lg btn-block">Submit
                         </button>
-                    </div>
-                </div>
+                        <h4>Compiler Output</h4>
+                        <samp id="p_compiler_output" style="overflow-x: scroll"></samp>
+                        <h4>Input</h4>
+                        <samp id="p_stdin"></samp>
+                        <h4>Output</h4>
+                        <samp id="p_stdout"></samp>
+                        <h4>Errors</h4>
+                        <samp id="p_stderr"></samp>
             </div>
         </div>
     </div>
 {% endblock %}
 {% block javascript %}
     {{ block.super }}
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.2/ace.js" type="text/javascript"
+            charset="utf-8">
+    </script>
     <script>
+
+        function get_status_type(status_id) {
+            switch (status_id) {
+                case 1:
+                case 2:
+                    return "info";
+                case 3:
+                    return "success";
+                case 4:
+                    return "warning";
+                default:
+                    return "error";
+            }
+        }
+
         toastr.options = {
             "closeButton": true,
             "debug": false,
@@ -64,10 +75,10 @@
             "hideEasing": "linear",
             "showMethod": "fadeIn",
             "hideMethod": "fadeOut"
-        }
+        };
 
         var editor = ace.edit("editor");
-        editor.session.setMode("ace/mode/{{ problem.options.language.mode }}");
+        editor.session.setMode("ace/mode/{{ problem.language.mode }}");
         editor.setAutoScrollEditorIntoView(true);
 
         var chatSocket = new WebSocket(
@@ -81,13 +92,17 @@
             switch(data["type"]){
                 case "problem.ready":
                     var problem = data['problem'];
-                    window.location.replace('{% url 'problem_base' %}'+problem)
+                    window.location.replace('{% url 'problem_list'%}' + problem + "/student/");
                     break;
                 case "submission.status":
-                    if (typeof data["message"] === 'string' || data["message"] instanceof String)
-                        toastr[data["notif_type"]](data['message']);
-                    else
-                        toastr[data["notif_type"]](data['message']["status"]);
+                    var notif_type = get_status_type(data["status"]["id"]);
+                    toastr[get_status_type(data["status"]["id"])](data["status"]["description"])
+
+                    {# Add Output #}
+                    $('#p_compiler_output').text(data["compile_output"]);
+                    $('#p_stdin').text(data["stdin"]);
+                    $('#p_stdout').text(data["stdout"]);
+                    $('#p_stderr').text(data["stderr"]);
 
             }
         };
@@ -99,7 +114,7 @@
 
         $('#btn-submit').click(function() {
             if ('Blob' in window) {
-                var fileName = 'code.{{ problem.options.language.extension }}';
+                var fileName = 'code.{{ problem.language.extension }}';
                 console.log(fileName);
                 var textToWrite = editor.getValue();
                 var codeFile = new Blob([textToWrite], { type: 'text/plain' });

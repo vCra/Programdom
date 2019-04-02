@@ -1,4 +1,6 @@
+import asyncio
 import os
+from pprint import pprint
 
 import aiofiles as aiofiles
 from asgiref.sync import sync_to_async
@@ -7,18 +9,23 @@ from django.core.cache import cache
 
 from channels.layers import get_channel_layer
 from django.conf import settings
-import mooshak2api as api
-
+import judge0api as api
 from programdom.bridge.client import client
+from programdom.models import Problem, SubmissionTestResult
 
 channel_layer = get_channel_layer()
 
-
 class ProgramdomBridgeConsumer(AsyncConsumer):
+
+    problem = None
+    workshop_id = None
+    session_id = None
+    channel_name = None
+    file = None
 
     async def evaluate(self, message):
         """
-        Sends a message to mooshak, and then processes the result
+        Sends a message to judge0api, and then processes the result
         :param message: a dict containing the following:
             message = {
                 "type": "solution.evaluate", # To match to this method
@@ -29,10 +36,13 @@ class ProgramdomBridgeConsumer(AsyncConsumer):
             }
         """
 
-        problem = await sync_to_async(api.problems.Problem)(settings.MOOSHAK_CONTEST)
-        problem.id = message["problem_id"]
+        self.problem = Problem.objects.get(id=message["problem_id"])
+        self.workshop_id = message["workshop_id"]
+        self.session_id = message["session_id"]
+        self.channel_name = cache.get(f"session_{self.session_id}_channel-name")
 
         url = message["code_url"]
+
 
         # Our old system downloaded files and then sent them off. We will probably go back to this once in prod and have
         # an actual object storage system working. However, ATM we can just use the local files.
@@ -42,52 +52,32 @@ class ProgramdomBridgeConsumer(AsyncConsumer):
         #     async with session.get(f"{url}") as response:
         #         data = await response.read()
 
-        # We can just get the file
-        try:
-            # TODO: This is horrible, and should be changed
-            async with aiofiles.opeen(str(settings.APPS_DIR(url[1:])), mode='rb') as f:
-                file = (os.path.basename(url), await f.read())
-            self.evaluation = await sync_to_async(problem.evaluate)(client, file)
-        except Exception as e:
-            message.update({
-                "notif_type": "error",
-                "message": str(e)
-            })
-        else:
-            message.update({
-                "notif_type": self.evaluation.notify_type,
-                "message": self.evaluation.as_json(),
-            })
-        message.update({"type": "submission.status"})
-        channel_name = cache.get(f"session_{message['session_id']}_channel-name")
+        # TODO: This is horrible, and should be changed
+        async with aiofiles.open(str(settings.APPS_DIR(url[1:])), mode='rb') as f:
+            self.file = await f.read()
 
-        await channel_layer.send(channel_name, message)
+        for test in self.problem.problemtest_set.all():
+            submission = sync_to_async(api.submission.submit)(client, self.file, self.problem.language.judge_zero_id, stdin=test.std_in, expected_output=test.std_out)
 
-        await sync_to_async(self.set_message_kv)(message)
+            client_result = dict(vars(submission))
 
-        await channel_layer.group_send(f"workshop_{message['workshop_id']}_control", {"type": "graph.update"})
+            await self.handle_state(client_result)
 
-    def set_message_kv(self, message):
+            test_result = SubmissionTestResult()
+
+            client_result.update({"type": "submission.status"})
+            client_result.update({"test": test})
+
+
+    async def handle_state(self, message):
+        # Sends a message to the end user saying what is happening
+        await channel_layer.send(self.channel_name, message)
+        # Update the lecturers graph
+        await channel_layer.group_send(f"workshop_{self.workshop_id}_control", {"type": "graph.update"})
+
+    def submit_allowed(self):
         """
-        Sets cache variables based on message properties
-        :param message:
-        :return:
+        Checks if the current session is able to submit, by sesing if their answer has been approved
         """
-        status = cache.get(f"session_{message['session_id']}_status")
-        notify_type = message["notif_type"]
-        # TODO: Sort this mess out - make some form of cache object class IDK
-        if status == "not_attempted":
-            if notify_type == "success":
-                cache.incr(f"workshop_{message['workshop_id']}_users_passed")
-                new_status = cache.set(f"session_{message['session_id']}_status", "success")
-            else:
-                cache.incr(f"workshop_{message['workshop_id']}_users_attempted")
-                new_status = cache.set(f"session_{message['session_id']}_status", "attempted")
-            cache.set(f"session_{message['session_id']}_status", new_status)
-        elif status == "attempted":
-            if notify_type == "success":
-                cache.incr(f"workshop_{message['workshop_id']}_users_passed")
-                new_status = cache.set(f"session_{message['session_id']}_status", "success")
-                cache.set(f"session_{message['session_id']}_status", new_status)
-
+        return True
 

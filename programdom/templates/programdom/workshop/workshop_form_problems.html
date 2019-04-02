@@ -1,12 +1,25 @@
 {% extends "base_form.html" %}
 {% load crispy_forms_tags %}
-{% block title %}Change problems for {{ object }}{% endblock title %}
 {% block breadcrumbs %}
 <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
 <li class="breadcrumb-item"><a href="{% url 'workshop_list' %}">Workshops</a></li>
 <li class="breadcrumb-item active"><a>{{ object }}</a></li>
 <li class="breadcrumb-item active">Problems</li>
 {% endblock breadcrumbs %}
-{% block form %}
-{% crispy form %}
-{% endblock form %}
+
+{% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-auto">
+                <h3>{% block title %}Add problems to '{{ object }}'{% endblock title %}</h3>
+            </div>
+            <div class="col-auto flex-grow-1">
+                <a id="btn-create-problem " class="btn btn-success float-right" href="{% url 'problem_create' %}">Create a New Problem</a>
+            </div>
+        </div>
+        {% block form %}
+            {% crispy form %}
+
+        {% endblock form %}
+    </div>
+{% endblock content %}

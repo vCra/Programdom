@@ -130,13 +130,4 @@ CHANNEL_LAYERS = {
     },
 }
 
-MOOSHAK_ENDPOINT = "http://localhost:8080/mooshak/api/"
-MOOSHAK_CONTEST = "ToPAS14"
-MOOSHAK_USERNAME = "team"
-MOOSHAK_PASSWORD = "team"
-
-MOOSHAK_SUPPORTED_LANGUAGES = [
-    ("c", "c", "c_cpp"),
-    ("java", "java", "java"),
-    ("python", "py", "python"),
-]
+JUDGE0_ENDPOINT = "https://api.judge0.com"

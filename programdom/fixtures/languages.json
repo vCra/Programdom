@@ -1,0 +1,432 @@
+[
+  {
+    "model": "programdom.ProblemLanguage",
+    "fields": {
+      "verbose_name": "Bash (4.4)",
+      "judge_zero_id": "1",
+      "mode": "sh",
+      "extension": "sh",
+      "logo_name": ""
+    }
+  },
+  {
+    "model": "programdom.ProblemLanguage",
+    "fields": {
+      "verbose_name": "Bash (4.0)",
+      "judge_zero_id": "2",
+      "mode": "sh",
+      "extension": "sh",
+      "logo_name": ""
+    }
+  },
+  {
+    "model": "programdom.ProblemLanguage",
+    "fields": {
+      "verbose_name": "Basic (fbc 1.05.0)",
+      "judge_zero_id": "3",
+      "mode": "text",
+      "extension": "bas",
+      "logo_name": ""
+    }
+  },
+  {
+    "model": "programdom.ProblemLanguage",
+    "fields": {
+      "verbose_name": "C (gcc 7.2.0)",
+      "judge_zero_id": "4",
+      "mode": "c_cpp",
+      "extension": "c",
+      "logo_name": ""
+    }
+  },
+  {
+    "model": "programdom.ProblemLanguage",
+    "fields": {
+      "verbose_name": "C (gcc 6.4.0)",
+      "judge_zero_id": "5",
+      "mode": "c_cpp",
+      "extension": "c",
+      "logo_name": ""
+    }
+  },
+  {
+    "model": "programdom.ProblemLanguage",
+    "fields": {
+      "verbose_name": "C (gcc 6.3.0)",
+      "judge_zero_id": "6",
+      "mode": "c_cpp",
+      "extension": "c",
+      "logo_name": ""
+    }
+  },
+  {
+    "model": "programdom.ProblemLanguage",
+    "fields": {
+      "verbose_name": "C (gcc 5.4.0)",
+      "judge_zero_id": "7",
+      "mode": "c_cpp",
+      "extension": "c",
+      "logo_name": ""
+    }
+  },
+  {
+    "model": "programdom.ProblemLanguage",
+    "fields": {
+      "verbose_name": "C (gcc 4.9.4)",
+      "judge_zero_id": "8",
+      "mode": "c_cpp",
+      "extension": "c",
+      "logo_name": ""
+    }
+  },
+  {
+    "model": "programdom.ProblemLanguage",
+    "fields": {
+      "verbose_name": "C (gcc 4.8.5)",
+      "judge_zero_id": "9",
+      "mode": "c_cpp",
+      "extension": "c",
+      "logo_name": ""
+    }
+  },
+  {
+    "model": "programdom.ProblemLanguage",
+    "fields": {
+      "verbose_name": "C++ (g++ 7.2.0)",
+      "judge_zero_id": "10",
+      "mode": "c_cpp",
+      "extension": "cpp",
+      "logo_name": ""
+    }
+  },
+  {
+    "model": "programdom.ProblemLanguage",
+    "fields": {
+      "verbose_name": "C++ (g++ 6.4.0)",
+      "judge_zero_id": "11",
+      "mode": "c_cpp",
+      "extension": "cpp",
+      "logo_name": ""
+    }
+  },
+  {
+    "model": "programdom.ProblemLanguage",
+    "fields": {
+      "verbose_name": "C++ (g++ 6.3.0)",
+      "judge_zero_id": "12",
+      "mode": "c_cpp",
+      "extension": "cpp",
+      "logo_name": ""
+    }
+  },
+  {
+    "model": "programdom.ProblemLanguage",
+    "fields": {
+      "verbose_name": "C++ (g++ 5.4.0)",
+      "judge_zero_id": "13",
+      "mode": "c_cpp",
+      "extension": "cpp",
+      "logo_name": ""
+    }
+  },
+  {
+    "model": "programdom.ProblemLanguage",
+    "fields": {
+      "verbose_name": "C++ (g++ 4.9.4)",
+      "judge_zero_id": "14",
+      "mode": "c_cpp",
+      "extension": "cpp",
+      "logo_name": ""
+    }
+  },
+  {
+    "model": "programdom.ProblemLanguage",
+    "fields": {
+      "verbose_name": "C++ (g++ 4.8.5)",
+      "judge_zero_id": "15",
+      "mode": "c_cpp",
+      "extension": "cpp",
+      "logo_name": ""
+    }
+  },
+  {
+    "model": "programdom.ProblemLanguage",
+    "fields": {
+      "verbose_name": "C# (mono 5.4.0.167)",
+      "judge_zero_id": "16",
+      "mode": "csharp",
+      "extension": "cs",
+      "logo_name": ""
+    }
+  },
+  {
+    "model": "programdom.ProblemLanguage",
+    "fields": {
+      "verbose_name": "C# (mono 5.2.0.224)",
+      "judge_zero_id": "17",
+      "mode": "csharp",
+      "extension": "cs",
+      "logo_name": ""
+    }
+  },
+  {
+    "model": "programdom.ProblemLanguage",
+    "fields": {
+      "verbose_name": "Clojure (1.8.0)",
+      "judge_zero_id": "18",
+      "mode": "clojure",
+      "extension": "clj",
+      "logo_name": ""
+    }
+  },
+  {
+    "model": "programdom.ProblemLanguage",
+    "fields": {
+      "verbose_name": "Crystal (0.23.1)",
+      "judge_zero_id": "19",
+      "mode": "crystal",
+      "extension": "cr",
+      "logo_name": ""
+    }
+  },
+  {
+    "model": "programdom.ProblemLanguage",
+    "fields": {
+      "verbose_name": "Elixir (1.5.1) ",
+      "judge_zero_id": "20",
+      "mode": "elixir",
+      "extension": "ex",
+      "logo_name": ""
+    }
+  },
+  {
+    "model": "programdom.ProblemLanguage",
+    "fields": {
+      "verbose_name": "Erlang (OTP 20.0)",
+      "judge_zero_id": "21",
+      "mode": "erlang",
+      "extension": "erl",
+      "logo_name": "erlang"
+    }
+  },
+  {
+    "model": "programdom.ProblemLanguage",
+    "fields": {
+      "verbose_name": "Go (1.9)",
+      "judge_zero_id": "22",
+      "mode": "golang",
+      "extension": "go",
+      "logo_name": ""
+    }
+  },
+  {
+    "model": "programdom.ProblemLanguage",
+    "fields": {
+      "verbose_name": "Haskell (GHC 8.2.1)",
+      "judge_zero_id": "23",
+      "mode": "haskell",
+      "extension": "hs",
+      "logo_name": ""
+    }
+  },
+  {
+    "model": "programdom.ProblemLanguage",
+    "fields": {
+      "verbose_name": "Haskell (GHC 8.0.2)",
+      "judge_zero_id": "24",
+      "mode": "haskell",
+      "extension": "hs",
+      "logo_name": ""
+    }
+  },
+  {
+    "model": "programdom.ProblemLanguage",
+    "fields": {
+      "verbose_name": "Insect (5.0.0)",
+      "judge_zero_id": "25",
+      "mode": "text",
+      "extension": "",
+      "logo_name": ""
+    }
+  },
+  {
+    "model": "programdom.ProblemLanguage",
+    "fields": {
+      "verbose_name": "Java (OpenJDK 9 with Eclipse OpenJ9)",
+      "judge_zero_id": "26",
+      "mode": "java",
+      "extension": "java",
+      "logo_name": "java"
+    }
+  },
+  {
+    "model": "programdom.ProblemLanguage",
+    "fields": {
+      "verbose_name": "Java (OpenJDK 8)",
+      "judge_zero_id": "27",
+      "mode": "java",
+      "extension": "java",
+      "logo_name": "java"
+    }
+  },
+  {
+    "model": "programdom.ProblemLanguage",
+    "fields": {
+      "verbose_name": "Java (OpenJDK7)",
+      "judge_zero_id": "28",
+      "mode": "java",
+      "extension": "java",
+      "logo_name": "java"
+    }
+  },
+  {
+    "model": "programdom.ProblemLanguage",
+    "fields": {
+      "verbose_name": "JavaScript (nodejs 8.5.0)",
+      "judge_zero_id": "29",
+      "mode": "javascript",
+      "extension": "js",
+      "logo_name": "js-square"
+    }
+  },
+  {
+    "model": "programdom.ProblemLanguage",
+    "fields": {
+      "verbose_name": "JavaScript (nodejs 7.10.1)",
+      "judge_zero_id": "30",
+      "mode": "javascript",
+      "extension": "js",
+      "logo_name": "js-square"
+    }
+  },
+  {
+    "model": "programdom.ProblemLanguage",
+    "fields": {
+      "verbose_name": "OCaml (4.05.0)",
+      "judge_zero_id": "31",
+      "mode": "ocaml",
+      "extension": "ml",
+      "logo_name": ""
+    }
+  },
+  {
+    "model": "programdom.ProblemLanguage",
+    "fields": {
+      "verbose_name": "Octave (4.2.0)",
+      "judge_zero_id": "32",
+      "mode": "text",
+      "extension": "m",
+      "logo_name": ""
+    }
+  },
+  {
+    "model": "programdom.ProblemLanguage",
+    "fields": {
+      "verbose_name": "Pascal (fpc 3.0.0)",
+      "judge_zero_id": "33",
+      "mode": "pascal",
+      "extension": "pas",
+      "logo_name": ""
+    }
+  },
+  {
+    "model": "programdom.ProblemLanguage",
+    "fields": {
+      "verbose_name": "Python (3.6.0)",
+      "judge_zero_id": "34",
+      "mode": "python",
+      "extension": "py",
+      "logo_name": "python"
+    }
+  },
+  {
+    "model": "programdom.ProblemLanguage",
+    "fields": {
+      "verbose_name": "Python (3.5.3)",
+      "judge_zero_id": "35",
+      "mode": "python",
+      "extension": "py",
+      "logo_name": "python"
+    }
+  },
+  {
+    "model": "programdom.ProblemLanguage",
+    "fields": {
+      "verbose_name": "Python (2.7.9)",
+      "judge_zero_id": "36",
+      "mode": "python",
+      "extension": "py",
+      "logo_name": "python"
+    }
+  },
+  {
+    "model": "programdom.ProblemLanguage",
+    "fields": {
+      "verbose_name": "Python (2.6.9)",
+      "judge_zero_id": "37",
+      "mode": "python",
+      "extension": "py",
+      "logo_name": "python"
+    }
+  },
+  {
+    "model": "programdom.ProblemLanguage",
+    "fields": {
+      "verbose_name": "Ruby (2.4.0)",
+      "judge_zero_id": "38",
+      "mode": "ruby",
+      "extension": "rb",
+      "logo_name": ""
+    }
+  },
+  {
+    "model": "programdom.ProblemLanguage",
+    "fields": {
+      "verbose_name": "Ruby (2.3.3)",
+      "judge_zero_id": "39",
+      "mode": "ruby",
+      "extension": "rb",
+      "logo_name": ""
+    }
+  },
+  {
+    "model": "programdom.ProblemLanguage",
+    "fields": {
+      "verbose_name": "Ruby (2.2.6)",
+      "judge_zero_id": "40",
+      "mode": "ruby",
+      "extension": "rb",
+      "logo_name": ""
+    }
+  },
+  {
+    "model": "programdom.ProblemLanguage",
+    "fields": {
+      "verbose_name": "Ruby (2.1.9)",
+      "judge_zero_id": "41",
+      "mode": "ruby",
+      "extension": "rb",
+      "logo_name": ""
+    }
+  },
+  {
+    "model": "programdom.ProblemLanguage",
+    "fields": {
+      "verbose_name": "Rust (1.20.0)",
+      "judge_zero_id": "42",
+      "mode": "rust",
+      "extension": "rs",
+      "logo_name": ""
+    }
+  },
+  {
+    "model": "programdom.ProblemLanguage",
+    "fields": {
+      "verbose_name": "Text (Plain Text",
+      "judge_zero_id": "43",
+      "mode": "text",
+      "extension": "txt",
+      "logo_name": ""
+    }
+  }
+]

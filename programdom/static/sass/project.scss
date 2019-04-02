@@ -1,12 +1,12 @@
 
 @import "custom_bootstrap_vars";
 @import "bootstrap";
-@import "coreui";
+
 $fa-font-path:  "../fonts/";
-@import "font-awesome";
+@import "fontawesome";
+@import "solid";
+@import "brands";
 
-
-@import "bootstrap_social/bs_social";
 
 // project specific CSS goes here
 
