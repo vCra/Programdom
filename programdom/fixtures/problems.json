@@ -4,7 +4,8 @@
     "fields": {
       "title": "Test Problem",
       "skeleton": "print('this is a test')",
-      "language": 3
+      "language": 3,
+      "id": 1
     }
   }
 ]

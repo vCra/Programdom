@@ -52,7 +52,6 @@ class WorkshopStudentRegigsterView(FormView):
         # TODO: Alter so we don't have to hit the DB, but still be clean
         return redirect(get_current_problem_url(id))
 
-
 class WorkshopStudentWaitView(TemplateView):
     template_name = "programdom/workshop/waiting.html"
 

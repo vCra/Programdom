@@ -13,6 +13,7 @@ pytest-sugar
 factory-boy
 django-coverage-plugin
 pytest-django
+splinter[django]
 
 
 # Code quality

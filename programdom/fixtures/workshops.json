@@ -2,7 +2,8 @@
   {
     "model": "programdom.Workshop",
     "fields": {
-      "title": "Test Workshop"
+      "title": "Test Workshop",
+      "id": 1
     }
   }
 ]

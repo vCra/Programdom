@@ -55,11 +55,10 @@ EMAIL_PORT = 1025
 # ------------------------------------------------------------------------------
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'testdb.db',
-    }
+    'default': env.db('DATABASE_URL', 'postgresql://postgres@localhost:5432/programdom_test'),
 }
+
+
 ALLOWED_HOSTS = ["localhost"]
 
 JUDGE0_ENDPOINT = "https://api.judge0.com"

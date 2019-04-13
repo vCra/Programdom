@@ -5,7 +5,8 @@
       "name": "New Test",
       "std_in": "Bob",
       "std_out": "Hello Bob",
-      "problem": 1
+      "problem": 1,
+      "id": 1
     }
   }
 ]

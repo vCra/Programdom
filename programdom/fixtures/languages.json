@@ -6,7 +6,8 @@
       "judge_zero_id": "1",
       "mode": "sh",
       "extension": "sh",
-      "logo_name": ""
+      "logo_name": "",
+      "id": 1
     }
   },
   {
@@ -16,7 +17,8 @@
       "judge_zero_id": "2",
       "mode": "sh",
       "extension": "sh",
-      "logo_name": ""
+      "logo_name": "",
+      "id": 2
     }
   },
   {
@@ -26,7 +28,8 @@
       "judge_zero_id": "3",
       "mode": "text",
       "extension": "bas",
-      "logo_name": ""
+      "logo_name": "",
+      "id": 3
     }
   },
   {
@@ -36,7 +39,8 @@
       "judge_zero_id": "4",
       "mode": "c_cpp",
       "extension": "c",
-      "logo_name": ""
+      "logo_name": "",
+      "id": 4
     }
   },
   {
@@ -46,7 +50,8 @@
       "judge_zero_id": "5",
       "mode": "c_cpp",
       "extension": "c",
-      "logo_name": ""
+      "logo_name": "",
+      "id": 5
     }
   },
   {
@@ -56,7 +61,8 @@
       "judge_zero_id": "6",
       "mode": "c_cpp",
       "extension": "c",
-      "logo_name": ""
+      "logo_name": "",
+      "id": 6
     }
   },
   {
@@ -66,7 +72,8 @@
       "judge_zero_id": "7",
       "mode": "c_cpp",
       "extension": "c",
-      "logo_name": ""
+      "logo_name": "",
+      "id": 7
     }
   },
   {
@@ -76,7 +83,8 @@
       "judge_zero_id": "8",
       "mode": "c_cpp",
       "extension": "c",
-      "logo_name": ""
+      "logo_name": "",
+      "id": 8
     }
   },
   {
@@ -86,7 +94,8 @@
       "judge_zero_id": "9",
       "mode": "c_cpp",
       "extension": "c",
-      "logo_name": ""
+      "logo_name": "",
+      "id": 9
     }
   },
   {
@@ -96,7 +105,8 @@
       "judge_zero_id": "10",
       "mode": "c_cpp",
       "extension": "cpp",
-      "logo_name": ""
+      "logo_name": "",
+      "id": 10
     }
   },
   {
@@ -106,7 +116,8 @@
       "judge_zero_id": "11",
       "mode": "c_cpp",
       "extension": "cpp",
-      "logo_name": ""
+      "logo_name": "",
+      "id": 11
     }
   },
   {
@@ -116,7 +127,8 @@
       "judge_zero_id": "12",
       "mode": "c_cpp",
       "extension": "cpp",
-      "logo_name": ""
+      "logo_name": "",
+      "id": 12
     }
   },
   {
@@ -126,7 +138,8 @@
       "judge_zero_id": "13",
       "mode": "c_cpp",
       "extension": "cpp",
-      "logo_name": ""
+      "logo_name": "",
+      "id": 13
     }
   },
   {
@@ -136,7 +149,8 @@
       "judge_zero_id": "14",
       "mode": "c_cpp",
       "extension": "cpp",
-      "logo_name": ""
+      "logo_name": "",
+      "id": 14
     }
   },
   {
@@ -146,7 +160,8 @@
       "judge_zero_id": "15",
       "mode": "c_cpp",
       "extension": "cpp",
-      "logo_name": ""
+      "logo_name": "",
+      "id": 15
     }
   },
   {
@@ -156,7 +171,8 @@
       "judge_zero_id": "16",
       "mode": "csharp",
       "extension": "cs",
-      "logo_name": ""
+      "logo_name": "",
+      "id": 16
     }
   },
   {
@@ -166,7 +182,8 @@
       "judge_zero_id": "17",
       "mode": "csharp",
       "extension": "cs",
-      "logo_name": ""
+      "logo_name": "",
+      "id": 17
     }
   },
   {
@@ -176,7 +193,8 @@
       "judge_zero_id": "18",
       "mode": "clojure",
       "extension": "clj",
-      "logo_name": ""
+      "logo_name": "",
+      "id": 18
     }
   },
   {
@@ -186,7 +204,8 @@
       "judge_zero_id": "19",
       "mode": "crystal",
       "extension": "cr",
-      "logo_name": ""
+      "logo_name": "",
+      "id": 19
     }
   },
   {
@@ -196,7 +215,8 @@
       "judge_zero_id": "20",
       "mode": "elixir",
       "extension": "ex",
-      "logo_name": ""
+      "logo_name": "",
+      "id": 20
     }
   },
   {
@@ -206,7 +226,8 @@
       "judge_zero_id": "21",
       "mode": "erlang",
       "extension": "erl",
-      "logo_name": "erlang"
+      "logo_name": "erlang",
+      "id": 21
     }
   },
   {
@@ -216,7 +237,8 @@
       "judge_zero_id": "22",
       "mode": "golang",
       "extension": "go",
-      "logo_name": ""
+      "logo_name": "",
+      "id": 22
     }
   },
   {
@@ -226,7 +248,8 @@
       "judge_zero_id": "23",
       "mode": "haskell",
       "extension": "hs",
-      "logo_name": ""
+      "logo_name": "",
+      "id": 23
     }
   },
   {
@@ -236,7 +259,8 @@
       "judge_zero_id": "24",
       "mode": "haskell",
       "extension": "hs",
-      "logo_name": ""
+      "logo_name": "",
+      "id": 24
     }
   },
   {
@@ -246,7 +270,8 @@
       "judge_zero_id": "25",
       "mode": "text",
       "extension": "",
-      "logo_name": ""
+      "logo_name": "",
+      "id":25
     }
   },
   {
@@ -256,7 +281,8 @@
       "judge_zero_id": "26",
       "mode": "java",
       "extension": "java",
-      "logo_name": "java"
+      "logo_name": "java",
+      "id":26
     }
   },
   {
@@ -266,7 +292,8 @@
       "judge_zero_id": "27",
       "mode": "java",
       "extension": "java",
-      "logo_name": "java"
+      "logo_name": "java",
+      "id":27
     }
   },
   {
@@ -276,7 +303,8 @@
       "judge_zero_id": "28",
       "mode": "java",
       "extension": "java",
-      "logo_name": "java"
+      "logo_name": "java",
+      "id":28
     }
   },
   {
@@ -286,7 +314,8 @@
       "judge_zero_id": "29",
       "mode": "javascript",
       "extension": "js",
-      "logo_name": "js-square"
+      "logo_name": "js-square",
+      "id":29
     }
   },
   {
@@ -296,7 +325,8 @@
       "judge_zero_id": "30",
       "mode": "javascript",
       "extension": "js",
-      "logo_name": "js-square"
+      "logo_name": "js-square",
+      "id":30
     }
   },
   {
@@ -306,7 +336,8 @@
       "judge_zero_id": "31",
       "mode": "ocaml",
       "extension": "ml",
-      "logo_name": ""
+      "logo_name": "",
+      "id":31
     }
   },
   {
@@ -316,7 +347,8 @@
       "judge_zero_id": "32",
       "mode": "text",
       "extension": "m",
-      "logo_name": ""
+      "logo_name": "",
+      "id":32
     }
   },
   {
@@ -326,7 +358,8 @@
       "judge_zero_id": "33",
       "mode": "pascal",
       "extension": "pas",
-      "logo_name": ""
+      "logo_name": "",
+      "id":33
     }
   },
   {
@@ -336,7 +369,8 @@
       "judge_zero_id": "34",
       "mode": "python",
       "extension": "py",
-      "logo_name": "python"
+      "logo_name": "python",
+      "id":34
     }
   },
   {
@@ -346,7 +380,8 @@
       "judge_zero_id": "35",
       "mode": "python",
       "extension": "py",
-      "logo_name": "python"
+      "logo_name": "python",
+      "id":35
     }
   },
   {
@@ -356,7 +391,8 @@
       "judge_zero_id": "36",
       "mode": "python",
       "extension": "py",
-      "logo_name": "python"
+      "logo_name": "python",
+      "id":36
     }
   },
   {
@@ -366,7 +402,8 @@
       "judge_zero_id": "37",
       "mode": "python",
       "extension": "py",
-      "logo_name": "python"
+      "logo_name": "python",
+      "id":37
     }
   },
   {
@@ -376,7 +413,8 @@
       "judge_zero_id": "38",
       "mode": "ruby",
       "extension": "rb",
-      "logo_name": ""
+      "logo_name": "",
+      "id":38
     }
   },
   {
@@ -386,7 +424,8 @@
       "judge_zero_id": "39",
       "mode": "ruby",
       "extension": "rb",
-      "logo_name": ""
+      "logo_name": "",
+      "id":39
     }
   },
   {
@@ -396,7 +435,8 @@
       "judge_zero_id": "40",
       "mode": "ruby",
       "extension": "rb",
-      "logo_name": ""
+      "logo_name": "",
+      "id":40
     }
   },
   {
@@ -406,7 +446,8 @@
       "judge_zero_id": "41",
       "mode": "ruby",
       "extension": "rb",
-      "logo_name": ""
+      "logo_name": "",
+      "id":41
     }
   },
   {
@@ -416,7 +457,8 @@
       "judge_zero_id": "42",
       "mode": "rust",
       "extension": "rs",
-      "logo_name": ""
+      "logo_name": "",
+      "id":42
     }
   },
   {
@@ -426,7 +468,8 @@
       "judge_zero_id": "43",
       "mode": "text",
       "extension": "txt",
-      "logo_name": ""
+      "logo_name": "",
+      "id":43
     }
   }
 ]
