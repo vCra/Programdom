@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% load i18n %}
+
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'problem_list' %}">Problems</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'problem_detail' 1 %}">{{ object }}</a></li>
+    <li class="breadcrumb-item active">Tests</li>
+{% endblock breadcrumbs %}
+
+{% block content %}
+    <div class="row">
+        <div class="col">
+            <h3>{% block title %}Testcase's for{{ object }}{% endblock title %}</h3>
+        </div>
+    </div>
+
+{% endblock content %}

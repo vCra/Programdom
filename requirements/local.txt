@@ -10,6 +10,10 @@ psycopg2-binary
 pytest
 mypy
 pytest-sugar
+factory-boy
+django-coverage-plugin
+pytest-django
+
 
 # Code quality
 # ------------------------------------------------------------------------------
@@ -18,9 +22,6 @@ coverage
 
 # Django
 # ------------------------------------------------------------------------------
-factory-boy
 
 django-debug-toolbar
 django-extensions
-django-coverage-plugin
-pytest-django

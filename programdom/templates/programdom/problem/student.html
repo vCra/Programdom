@@ -3,7 +3,7 @@
     {{ block.super }}
     <style>
         #editor {
-            /** Setting height is aitlso important, otherwise editor wont showup**/
+            /** Setting height is also important, otherwise editor wont showup**/
             height: 500px;
         }
     </style>
@@ -23,21 +23,76 @@
             </div>
             <div class="col-lg-3">
 
-                        <button type="button" name="submit_code" id="btn-submit"
-                                class="btn btn-primary btn-lg btn-block">Submit
-                        </button>
-                        <h4>Compiler Output</h4>
-                        <samp id="p_compiler_output" style="overflow-x: scroll"></samp>
-                        <h4>Input</h4>
-                        <samp id="p_stdin"></samp>
-                        <h4>Output</h4>
-                        <samp id="p_stdout"></samp>
-                        <h4>Errors</h4>
-                        <samp id="p_stderr"></samp>
+                <button type="button" name="submit_code" id="btn-submit"
+                        class="btn btn-primary btn-lg btn-block">Submit
+                </button>
+
+                <div id="accordion">
+                    {% for test in object.problemtest_set.all %}
+                    <div class="card">
+                        <div class="card-header" id="heading{{ test.id }}">
+                            <h5 class="mb-0">
+                                <button class="btn btn-link btn-block" data-toggle="collapse" data-target="#collapse{{ test.id }}" aria-expanded="true" aria-controls="collapse{{ test.id }}">
+                                    {{ test }}
+                                    <i id="icon_test_{{ test.id }}" class="text-warning fa fa-question float-right"></i>
+                                </button>
+
+                            </h5>
+                        </div>
+
+                        <div id="collapse{{ test.id }}" class="collapse{% if forloop.first %} show{% endif %}" aria-labelledby="heading{{ test.id }}" data-parent="#accordion">
+                            <div class="card-body">
+                                <dl>
+                                    <dt>Status</dt>
+                                    <dd id="p_stat_{{ test.id }}">Not submitted</dd>
+                                    <dt>Program Input</dt>
+                                    <dd>{{ test.std_in | linebreaks }}</dd>
+                                    <dt>Expected Output</dt>
+                                    <dd>{{ test.std_out | linebreaks }}</dd>
+                                    <dt>Actual Output</dt>
+                                    <dd id="p_out_{{ test.id }}">No Output yet</dd>
+                                    <dt>Error Output <button class="btn btn-secondary btn-sm float-right" data-toggle="modal" data-target="#modal_err_{{ test.id }}">Expand</button></dt>
+                                    <dd id="p_err_{{ test.id }}">No Output yet</dd>
+                                    <dt>Compiler Output <button class="btn btn-secondary btn-sm float-right" data-toggle="modal" data-target="#modal_comp_{{ test.id }}">Expand</button></dt>
+                                    <dd id="p_comp_{{ test.id }}">No Output yet</dd>
+                                </dl>
+
+                            </div>
+                        </div>
+                    </div>
+                    {% empty %}
+                        This Problem has no Tests
+                    {% endfor %}
+                </div>
             </div>
         </div>
     </div>
 {% endblock %}
+
+{% block modal %}
+    {% for test in object.problemtest_set.all %}
+        <!-- Modal -->
+        <div class="modal fade" id="modal_err_{{ test.id }}" tabindex="-1" role="dialog" aria-labelledby="modal_err_{{ test.id }}_label" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modal_err_{{ test.id }}_label">Error output for {{ test }}</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <p id="modal_p_err_{{ test.id }}"></p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endfor %}
+{% endblock %}
+
 {% block javascript %}
     {{ block.super }}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.2/ace.js" type="text/javascript"
@@ -56,6 +111,21 @@
                     return "warning";
                 default:
                     return "error";
+            }
+        }
+
+        function get_status_class(status_id) {
+            switch (status_id) {
+                case 1:
+                    return "text-info fas fa-clock float-right";
+                case 2:
+                    return "text-info fas fa-cogs float-right";
+                case 3:
+                    return "text-success fas fa-check float-right";
+                case 4:
+                    return "text-danger fas fa-times float-right";
+                default:
+                    return "text-danger fas fa-exclamation-triangle float-right";
             }
         }
 
@@ -87,7 +157,6 @@
 
         chatSocket.onmessage = function(e) {
             var data = JSON.parse(e.data);
-            console.log(data);
 
             switch(data["type"]){
                 case "problem.ready":
@@ -95,15 +164,17 @@
                     window.location.replace('{% url 'problem_list'%}' + problem + "/student/");
                     break;
                 case "submission.status":
-                    var notif_type = get_status_type(data["status"]["id"]);
-                    toastr[get_status_type(data["status"]["id"])](data["status"]["description"])
+                    {#var notif_type = get_status_type(data["status"]["id"]);#}
+                    {#toastr[get_status_type(data["status"]["id"])](data["status"]["description"])#}
 
                     {# Add Output #}
-                    $('#p_compiler_output').text(data["compile_output"]);
-                    $('#p_stdin').text(data["stdin"]);
-                    $('#p_stdout').text(data["stdout"]);
-                    $('#p_stderr').text(data["stderr"]);
-
+                    $('#p_comp_'+data['test_id']).text(data["compile_output"]);
+                    $('#p_out_'+data['test_id']).text(data["stdout"]);
+                    $('#modal_p_out_'+data['test_id']).text(data["stdout"]);
+                    $('#p_err_'+data['test_id']).text(data["stderr"]);
+                    $('#modal_p_err_'+data['test_id']).text(data["stderr"]);
+                    $('#p_stat_'+data['test_id']).text(data["status"]["description"]);
+                    $('#icon_test_'+data['test_id']).attr("class",(get_status_class(data["status"]["id"])));
             }
         };
 
@@ -115,7 +186,6 @@
         $('#btn-submit').click(function() {
             if ('Blob' in window) {
                 var fileName = 'code.{{ problem.language.extension }}';
-                console.log(fileName);
                 var textToWrite = editor.getValue();
                 var codeFile = new Blob([textToWrite], { type: 'text/plain' });
 
@@ -125,9 +195,9 @@
                 formData.append('user', {{ request.user.id }});
                 {% endif %}
                 formData.append('problem', {{ problem.id }});
+                formData.append('workshop', {{ request.session.current_workshop_id }});
                 formData.append('options', JSON.stringify({
-                    session_id: '{{ request.session.session_key }}',
-                    workshop_id: {{ request.session.current_workshop_id }}
+                    session_id: '{{ request.session.session_key }}'
                 }));
 
 

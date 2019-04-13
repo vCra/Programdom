@@ -1,0 +1,8 @@
+[
+  {
+    "model": "programdom.Workshop",
+    "fields": {
+      "title": "Test Workshop"
+    }
+  }
+]

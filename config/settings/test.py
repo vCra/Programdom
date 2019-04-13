@@ -60,3 +60,6 @@ DATABASES = {
         'NAME': 'testdb.db',
     }
 }
+ALLOWED_HOSTS = ["localhost"]
+
+JUDGE0_ENDPOINT = "https://api.judge0.com"

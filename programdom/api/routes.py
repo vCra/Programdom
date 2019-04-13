@@ -6,6 +6,7 @@ from . import views
 
 router = routers.DefaultRouter()
 router.register(r'submissions', views.SubmissionView)
+router.register(r'problems', views.ProblemView)
 
 
 urlpatterns = [

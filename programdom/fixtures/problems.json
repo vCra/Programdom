@@ -1,0 +1,10 @@
+[
+  {
+    "model": "programdom.Problem",
+    "fields": {
+      "title": "Test Problem",
+      "skeleton": "print('this is a test')",
+      "language": 3
+    }
+  }
+]

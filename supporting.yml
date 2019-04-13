@@ -2,7 +2,7 @@ version: '3'
 
 volumes:
   local_postgres_data: {}
-  local_mooshak_data: {}
+
 
 services:
   postgres:
@@ -14,16 +14,6 @@ services:
       - "5432:5432"
     env_file:
       - .envs/.local/.postgres
-
-
-  #  mooshak is a pos - for reasons why please read my report
-#  mooshak:
-#    image:
-#      mooshak2
-#    ports:
-#      - "8080:8080"
-#    volumes:
-#      - local_mooshak_data:/home/mooshak/data
 
 
   judgezero:

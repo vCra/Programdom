@@ -21,22 +21,57 @@
     </div>
     <div class="row">
         <div class="col-md-3">
-            <div class="card shadow-lg">
+            <div class="card shadow mb-3">
                 <div class="card-body">
                     <h4 class="card-title">Problem Details</h4>
                     {% crispy form %}
                 </div>
             </div>
+            <div class="card shadow">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col">
+                            <h4 class="card-title">Problem Tests</h4>
+                        </div>
+                        <div class="col">
+                            <a class="btn btn-success float-right" href="{% url "problem_test_new" object.id %}">New Test</a>
+                        </div>
+                    </div>
+
+                    {% for test in object.problemtest_set.all %}
+                        <div class="table-responsive">
+                            <table class="table">
+                                <tbody>
+                                <tr>
+                                    <td class=""><a href="{% url "problem_test_update" object.id test.id%}">{{ test }}</a></td>
+                                    <td class=""><a class="btn btn-danger" href="{% url "problem_test_delete" object.id test.id %}"><i class="fa fa-trash"></i></a></td>
+                                </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+                    {% empty %}
+                        <p>No tests exist for this Problem</p>
+                    {% endfor %}
+
+                </div>
+            </div>
         </div>
+
         <div class="col-md-9">
             <div class="container-fluid">
                 <div id="editor">{{ object.skeleton }}</div>
-                <button class="btn btn-success">Save Code</button>
+                <button class="btn btn-success" id="btn-save-code">Save Code</button>
             </div>
         </div>
     </div>
 
 {% endblock content %}
+
+
+
+
+
 {% block javascript %}
     {{ block.super }}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.2/ace.js" type="text/javascript"
@@ -45,7 +80,46 @@
     <script>
     var editor = ace.edit("editor");
     editor.session.setMode("ace/mode/{{ object.language.mode }}");
-</script>
+    </script>
+    {% csrf_token %}
+    <script type="text/javascript">
+        // using jQuery
+        var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+    </script>
+    <script>
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
+
+    $("#btn-save-code").click(function(){
+
+
+        $.ajax({
+            url: '{% url "api:problem-list" %}{{ problem.id }}/',
+            dataType: 'text',
+            type: 'patch',
+            contentType: 'application/x-www-form-urlencoded',
+            data: {
+                "skeleton": editor.getValue()
+            },
+            success: function( data, textStatus, jQxhr ){
+                toastr.success("Problem Code Updated");
+            },
+            error: function( jqXhr, textStatus, errorThrown ){
+                toastr.error("Unable to update Code");
+            }
+        });
+        }
+    )
+    </script>
 {% endblock javascript %}
 {% block css %}
     {{ block.super }}

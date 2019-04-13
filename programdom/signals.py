@@ -19,21 +19,16 @@ def save_submission(sender, instance, **kwargs):
     :param message: a JSON string, containing:
         "type": "submission.create" - to match to this method
         "submission_id": the PK of the submission object
-        "problem_id": the PK of the problem associated with this submission
         "workshop_id": the PK of the workshop associated with this submission
-        "code_url": the url of the code to upload to mooshak
         "session_id": the Session ID of the user who made the submission
     """
 
     async_to_sync(channel_layer.send)(
         "mooshakbridge", {
             "type": "evaluate",
-            "problem_id": instance.problem.id,
-            "code_url": instance.code.url,
+            "submission_id": instance.id,
             "session_id": instance.options["session_id"],
-            "workshop_id": instance.options["workshop_id"],
         }
     )
-    print("test1")
 
 

@@ -1,0 +1,11 @@
+[
+  {
+    "model": "programdom.ProblemTest",
+    "fields": {
+      "name": "New Test",
+      "std_in": "Bob",
+      "std_out": "Hello Bob",
+      "problem": 1
+    }
+  }
+]

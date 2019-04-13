@@ -46,6 +46,11 @@
                 </li>
             </ul>
         </div>
+        {% if user.is_authenticated %}
+        <ul class="nav navbar-nav navbar-right">
+            <li><a href="{% url "users:logout" %}"><span class="fa fa-sign-out"></span>Logout</a></li>
+        </ul>
+        {% endif %}
     </nav>
 
 

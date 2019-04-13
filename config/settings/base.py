@@ -229,4 +229,5 @@ ASGI_APPLICATION = "config.routing.application"
 #
 
 
-OPEN_URLS  = ["/admin/login/"]
+OPEN_URLS = ["/accounts/login/"]
+STUDENT_VIEWS = ["workshop_student_waiting", "problem_student", "workshop_auth"]

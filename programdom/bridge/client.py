@@ -14,7 +14,11 @@ refresh_interval = 60 * 10
 
 client = api.Client(settings.JUDGE0_ENDPOINT)
 
+# Do not wait for the program to
+client.wait = False
+
 # This was needed with mooshak, but is no longer, as Judge0 sessions do not expire.
+
 # """
 # Use asyncio rather than threads, in order to reduce complexity
 # """

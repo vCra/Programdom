@@ -1,11 +1,13 @@
-from rest_framework import viewsets, mixins
-from rest_framework.generics import CreateAPIView
-from rest_framework.views import APIView
-
-from programdom.api.serializers import SubmissionSerializer
-from programdom.models import Submission
+from rest_framework import viewsets
+from .serializers import SubmissionSerializer, ProblemSerializer
+from programdom.models import Submission, Problem
 
 
 class SubmissionView(viewsets.ModelViewSet):
     queryset = Submission.objects.all()
     serializer_class = SubmissionSerializer
+
+
+class ProblemView(viewsets.ModelViewSet):
+    queryset = Problem.objects.all()
+    serializer_class = ProblemSerializer

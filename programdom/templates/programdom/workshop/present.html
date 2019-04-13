@@ -31,7 +31,24 @@
         </div>
     </div>
     <div class="row">
-        <canvas id="myChart"></canvas>
+    <div class="col">
+        <ul class="nav nav-tabs" id="graphTabs" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="status-tab" data-toggle="tab" href="#tab-status" role="tab" aria-controls="home" aria-selected="true">Status Graph</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="results-tab" data-toggle="tab" href="#tab-results" role="tab" aria-controls="profile" aria-selected="false">Results Graph</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="time-tab" data-toggle="tab" href="#tab-time" role="tab" aria-controls="contact" aria-selected="false">Time Graph</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane fade show active" id="tab-status" role="tabpanel" aria-labelledby="status-tab"><canvas id="status_graph"></canvas></div>
+            <div class="tab-pane fade" id="tab-results" role="tabpanel" aria-labelledby="results-tab"><canvas id="results_graph"></canvas></div>
+            <div class="tab-pane fade" id="tab-time" role="tabpanel" aria-labelledby="time-tab"><canvas id="time_graph"></canvas></div>
+        </div>
+    </div>
     </div>
 {% endblock %}
 {% block javascript %}
@@ -45,8 +62,8 @@
     <script>
 
 
-        var ctx = document.getElementById('myChart').getContext('2d');
-        var chart = new Chart(ctx, {
+        var status_chart_context = document.getElementById('status_graph').getContext('2d');
+        var status_chart = new Chart(status_chart_context, {
             // The type of chart we want to create
             type: 'bar',
 
@@ -58,6 +75,31 @@
                     backgroundColor: 'rgb(255, 99, 132)',
                     borderColor: 'rgb(255, 99, 132)',
                     data: [0, 0, 0],
+                }]
+            },
+
+            // Configuration options go here
+            options: {}
+        });
+
+        var results_chart_context = document.getElementById('results_graph').getContext('2d');
+        var results_chart = new Chart(results_chart_context, {
+            // The type of chart we want to create
+            type: 'bar',
+
+            // The data for our dataset
+            data: {
+                labels: ["Accepted", "Wrong Answer", "Time Limit", "Compilation", "Runtime"],
+                datasets: [{
+                    label: "Count",
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: [0, 0, 0, 0, 0],
+                }, {
+                    label: "Current",
+                    backgroundColor: 'rgb(109,255,76)',
+                    borderColor: 'rgb(109,255,76)',
+                    data: [0, 0, 0, 0, 0],
                 }]
             },
 
@@ -88,8 +130,8 @@
                 }
             }
             if (action === "graph_update"){
-                chart.data.datasets[0].data=[data["count"], data["attempted"], data["passed"]];
-                chart.update()
+                status_chart.data.datasets[0].data=[data["count"], data["attempted"], data["passed"]];
+                status_chart.update()
             }
 
         };

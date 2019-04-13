@@ -1,0 +1,18 @@
+{% extends "base_form.html" %}
+{% load crispy_forms_tags %}
+{% block title %}{% if object %}Edit {{ object }}{% else %}New Testcase{% endif %}{% endblock title %}
+{% block breadcrumbs %}
+    <li class="breadcrumb-item"><a href="{% url 'home' %}">Home</a></li>
+    <li class="breadcrumb-item"><a href="{% url 'problem_list' %}">Problems</a></li>
+    {% if object %}
+    <li class="breadcrumb-item"><a href="{{ object.problem.get_absolute_url }}">{{ object.problem }}</a></li>
+    <li class="breadcrumb-item"><a href="{{ object.get_absolute_url }}">{{ object }}</a></li>
+    <li class="breadcrumb-item active">Update</li>
+    {% else %}
+    <li class="breadcrumb-item"><a href="{{ parent.get_absolute_url }}">{{ parent }}</a></li>
+    <li class="breadcrumb-item active">New Testcase</li>
+    {% endif %}
+{% endblock breadcrumbs %}
+{% block form %}
+    {% crispy form %}
+{% endblock form %}

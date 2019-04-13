@@ -1,15 +1,19 @@
+import asyncio
 import random
 import string
 
-from asgiref.sync import async_to_sync
+from asgiref.sync import async_to_sync, sync_to_async
 from channels.layers import get_channel_layer
 from django.contrib.auth import get_user_model
+from django.core.cache import cache
 from django.contrib.auth.models import Group
 from django.contrib.postgres.fields import JSONField
 from django.db import models
 from django.urls import reverse
 
 User = get_user_model()
+channel_layer = get_channel_layer()
+
 
 class ProblemLanguage(models.Model):
     """
@@ -33,7 +37,6 @@ class Problem(models.Model):
     skeleton = models.TextField(blank=True, default="")
     language = models.ForeignKey(ProblemLanguage, on_delete=models.CASCADE, help_text="The language that the code for this problem should be completed in")
 
-
     def __str__(self):
         return self.title
 
@@ -47,9 +50,16 @@ class ProblemTest(models.Model):
     The STD In will get supplied to the problem, and if the STD Out of the program matches stdout, then the test
     passes
     """
+    name = models.CharField(max_length=100, default="New Test")
     std_in = models.TextField(blank=True, default="")
     std_out = models.TextField(blank=True, default="")
     problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.name
+
+    def get_absolute_url(self):
+        return reverse('problem_test_update', kwargs={'pk': self.problem.id, "tc_pk": self.id})
 
 
 class Workshop(models.Model):
@@ -90,9 +100,11 @@ class Submission(models.Model):
     A users submission of code for a problem
     """
     problem = models.ForeignKey(Problem, on_delete=models.CASCADE)
-    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=~True)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
+    workshop = models.ForeignKey(Workshop, on_delete=models.CASCADE)
     code = models.FileField()
     options = JSONField(blank=True, default=dict)
+    date = models.DateTimeField(auto_now_add=True)
 
 
 class SubmissionTestResult(models.Model):
@@ -104,7 +116,10 @@ class SubmissionTestResult(models.Model):
     test = models.ForeignKey(ProblemTest, on_delete=models.CASCADE)
     result_data = JSONField(blank=True, default=dict)
 
-    def add_submission_result_data(self, submission):
-        self.result_data = dict(vars(submission))
+    def send_user_status(self, channel_name):
+        send_data = {**self.result_data, "test_id": self.test.id, "type": "submission.status"}
+        async_to_sync(channel_layer.send)(channel_name, send_data)
+
+
 
 
