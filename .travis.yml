@@ -1,0 +1,24 @@
+dist: xenial
+language: python
+
+python:
+  - "3.7"
+
+addons:
+  postgresql: "9.4"
+
+install:
+  - pip install -r requirements.txt
+
+before_script:
+  - psql -c 'create database programdom_test;' -U postgres
+  - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
+  - chmod +x ./cc-test-reporter
+  - ./cc-test-reporter before-build
+
+script:
+  - coverage run -m pytest
+
+after_script:
+  - coverage xml
+  - ./cc-test-reporter after-build --id b99c3291b5f5f531ea098cdb806a1f0e9e7a45bcc59858dd18962ec3029300b9 --exit-code $TRAVIS_TEST_RESULT
