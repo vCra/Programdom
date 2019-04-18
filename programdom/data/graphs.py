@@ -1,5 +1,7 @@
 from django.core.cache import cache
 
+from programdom.models import ProblemTest
+
 """
 For this project we are going to have 2 different graphs presented to lectureres when they are presenting a workshop:
 1. Status - Users online, Submissions, Passed
@@ -22,7 +24,7 @@ def gen_graph_data(workshop_id, problem_id):
     graph_data = {
         "action": "graph_update",
         "cpa": gen_cpa_graph(workshop_id, problem_id),
-        "results": 
+        "results": [gen_results_graph(workshop_id, problem_id, test_id) for test_id in ProblemTest.objects.filter(problem_id=problem_id).values_list("id")]
     }
 
     return graph_data
@@ -38,4 +40,14 @@ def gen_cpa_graph(workshop_id, problem_id):
         "count": cache.get(f'workshop_{workshop_id}_users_count'),
         "passed": cache.get(f'workshop_{workshop_id}_problem_{problem_id}_users_passed'),
         "attempted": cache.get(f'workshop_{workshop_id}_problem_{problem_id}_users_attempted')
+    }
+
+
+def gen_results_graph(workshop_id, problem_id, test_id):
+    return {
+        "accepted": cache.get(f'workshop_{workshop_id}_problem_{problem_id}_test_{test_id}_users_passed'),
+        "wrong": cache.get(f'workshop_{workshop_id}_problem_{problem_id}_test_{test_id}_users_wrong_count'),
+        "time": cache.get(f'workshop_{workshop_id}_problem_{problem_id}_test_{test_id}_users_time_count'),
+        "compilation": cache.get(f'workshop_{workshop_id}_problem_{problem_id}_test_{test_id}_users_compilation_count'),
+        "runtime": cache.get(f'workshop_{workshop_id}_problem_{problem_id}_test_{test_id}_users_runtime_count'),
     }

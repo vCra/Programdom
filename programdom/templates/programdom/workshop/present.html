@@ -103,7 +103,15 @@
             },
 
             // Configuration options go here
-            options: {}
+            options: {
+                scales: {
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true
+                        }
+                    }]
+                }
+            }
         });
 
         var results_chart_context = document.getElementById('results_graph').getContext('2d');
@@ -158,7 +166,7 @@
 
             }
             if (action === "graph_update"){
-                status_chart.data.datasets[0].data=[data["count"], data["attempted"], data["passed"]];
+                status_chart.data.datasets[0].data=[data["cpa"]["count"], data["cpa"]["attempted"], data["cpa"]["passed"]];
                 status_chart.update()
             }
 

@@ -137,17 +137,19 @@ class WorkshopControlConsumer(WebsocketConsumer):
             logging.getLogger(__name__).warning("A connection was initiated, but no workshop ID was present within the users session")
             self.close()
 
+    def disconnect(self, code):
+        # When the Lecturer disconnects (i.e. closes the browser), then end the workshop.
+        Workshop.objects.get(id=self.workshop_id).end()
+
     def receive(self, text_data=None, bytes_data=None):
         text_data = json.loads(text_data)
         message_type = text_data["action"]
         getattr(self, message_type)(text_data)
 
-
     def problem_select(self, text_data: dict):
         problem = text_data.get("problem_id")
         cache.set(f'workshop_{self.workshop_id}_current_problem', problem)
         async_to_sync(self.channel_layer.group_send)(f"wait_workshop_{self.workshop_id}", {"type": "problem.ready", "problem": problem})
-
 
     def workshop_toggle(self, text_data: dict):
         workshop_id = text_data.get("workshop_id")
@@ -155,12 +157,7 @@ class WorkshopControlConsumer(WebsocketConsumer):
         # TODO: set active workshop KV
         if text_data.get("workshop_state"):
             workshop.start()
-            cache.set(f'workshop_{self.workshop_id}_users_count', 0)
-            for problem_id in workshop.problems.values_list("id", flat=True):
-                cache.set(f'workshop_{workshop_id}_problem_{problem_id}_users_passed', 0),
-                cache.set(f'workshop_{workshop_id}_problem_{problem_id}_users_attempted', 0)
 
-            cache.delete(f'workshop_{self.workshop_id}_current_problem')
             text_data.update({"ws_code": workshop.code})
         else:
             workshop.end()

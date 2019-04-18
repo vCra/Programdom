@@ -77,7 +77,7 @@ class Workshop(models.Model):
         Ends the session, by removing the session code
         """
         self.code = None
-
+        self.cleanup()
         self.save()
 
     def start(self):
@@ -85,6 +85,9 @@ class Workshop(models.Model):
         Sets the session as running, by setting a code
         """
         self.code = "".join(random.choices(string.ascii_uppercase + string.digits, k=8))
+
+        # The workshop should already be clean at this point, but no harm is done by cleaning it again.
+        self.cleanup()
         self.save()
 
     def get_absolute_url(self):
@@ -92,6 +95,16 @@ class Workshop(models.Model):
 
     def __str__(self):
         return self.title
+
+    def cleanup(self):
+        from django.core.cache import cache
+
+        cache.set(f'workshop_{self.id}_users_count', 0)
+        for problem_id in self.problems.values_list("id", flat=True):
+            cache.set(f'workshop_{self.id}_problem_{problem_id}_users_passed', 0),
+            cache.set(f'workshop_{self.id}_problem_{problem_id}_users_attempted', 0)
+
+        cache.delete(f'workshop_{self.id}_current_problem')
 
 
 class Submission(models.Model):
