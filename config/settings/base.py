@@ -79,7 +79,6 @@ THIRD_PARTY_APPS = [
 ]
 LOCAL_APPS = [
     'programdom'
-    # Your stuff: custom apps go here
 ]
 # https://docs.djangoproject.com/en/dev/ref/settings/#installed-apps
 INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
@@ -96,6 +95,11 @@ AUTHENTICATION_BACKENDS = [
 LOGIN_REDIRECT_URL = 'home'
 # https://docs.djangoproject.com/en/dev/ref/settings/#login-url
 LOGIN_URL = '/workshops/auth/'
+
+OPEN_URLS = ["/accounts/login/"]
+
+STUDENT_VIEWS = ["workshop_student_waiting", "problem_student", "workshop_auth", "api:submission-list", "users:login"]
+
 
 # PASSWORDS
 # ------------------------------------------------------------------------------
@@ -228,6 +232,3 @@ ASGI_APPLICATION = "config.routing.application"
 # ------------------------------------------------------------------------------
 #
 
-
-OPEN_URLS = ["/accounts/login/"]
-STUDENT_VIEWS = ["workshop_student_waiting", "problem_student", "workshop_auth"]

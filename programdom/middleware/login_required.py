@@ -1,7 +1,7 @@
 from django.http import HttpResponseForbidden
 from django.shortcuts import redirect
 from django.conf import settings
-from django.urls import resolve
+from django.urls import resolve, reverse
 
 
 class LoginRequiredMiddleware:
@@ -17,7 +17,7 @@ class LoginRequiredMiddleware:
             return redirect(self.login_url+'?next='+request.path)
         else:
             if request.session.get("current_workshop_id") and not self._is_student_url(request.path_info):
-                return HttpResponseForbidden()
+                return redirect(reverse("users:login"))
         return self.get_response(request)
 
     def _is_student_url(self, path):

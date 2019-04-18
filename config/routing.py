@@ -8,6 +8,6 @@ from programdom.routing import websocket_urlpatterns
 application = ProtocolTypeRouter({
     'websocket': AuthMiddlewareStack(URLRouter([path("ws/", URLRouter(websocket_urlpatterns))])),
     'channel': ChannelNameRouter({
-        'mooshakbridge': ProgramdomBridgeConsumer
+        'judgebridge': ProgramdomBridgeConsumer
     })
 })

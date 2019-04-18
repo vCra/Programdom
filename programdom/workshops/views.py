@@ -23,7 +23,7 @@ class WorkshopDetailView(DetailView):
     template_name = "programdom/workshop/detail.html"
 
 
-class WorkshopCreateView(CreateView):
+class WorkshopCreateView(SuccessMessageMixin, CreateView):
     model = Workshop
     form_class = WorkshopsForm
     success_message = "A new Workshop has been created successfully! Remember to assign it to any modules"
@@ -34,6 +34,18 @@ class WorkshopListView(SingleTableMixin, FilterView):
     model = Workshop
     table_class = WorkshopTable
     template_name = "programdom/workshop/workshop_list.html"
+
+
+class WorkshopEditProblemsView(SuccessMessageMixin, UpdateView):
+    form_class = WorkshopProblemsForm
+    template_name = "programdom/workshop/workshop_form_problems.html"
+    model = Workshop
+    success_message = "The list of problems for this workshop has been updated!"
+
+
+class WorkshopPresentView(DetailView):
+    model = Workshop
+    template_name = "programdom/workshop/present.html"
 
 
 class WorkshopStudentRegigsterView(FormView):
@@ -52,18 +64,10 @@ class WorkshopStudentRegigsterView(FormView):
         # TODO: Alter so we don't have to hit the DB, but still be clean
         return redirect(get_current_problem_url(id))
 
+
 class WorkshopStudentWaitView(TemplateView):
     template_name = "programdom/workshop/waiting.html"
 
 
-class WorkshopPresentView(DetailView):
-    model = Workshop
-    template_name = "programdom/workshop/present.html"
 
-
-class WorkshopEditProblemsView(SuccessMessageMixin, UpdateView):
-    form_class = WorkshopProblemsForm
-    template_name = "programdom/workshop/workshop_form_problems.html"
-    model = Workshop
-    success_message = "The list of problems for this workshop has been updated!"
 

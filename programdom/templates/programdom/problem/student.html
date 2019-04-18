@@ -175,6 +175,11 @@
                     $('#modal_p_err_'+data['test_id']).text(data["stderr"]);
                     $('#p_stat_'+data['test_id']).text(data["status"]["description"]);
                     $('#icon_test_'+data['test_id']).attr("class",(get_status_class(data["status"]["id"])));
+                    break;
+                case "workshop.end":
+                    window.location.replace('{% url 'workshop_auth'%}');
+                    break;
+
             }
         };
 

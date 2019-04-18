@@ -1,11 +1,9 @@
-import asyncio
 import random
 import string
 
-from asgiref.sync import async_to_sync, sync_to_async
+from asgiref.sync import async_to_sync
 from channels.layers import get_channel_layer
 from django.contrib.auth import get_user_model
-from django.core.cache import cache
 from django.contrib.auth.models import Group
 from django.contrib.postgres.fields import JSONField
 from django.db import models
@@ -75,10 +73,11 @@ class Workshop(models.Model):
         return self.code is not None
 
     def end(self):
-        """s
+        """
         Ends the session, by removing the session code
         """
         self.code = None
+
         self.save()
 
     def start(self):

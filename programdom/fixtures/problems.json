@@ -2,9 +2,9 @@
   {
     "model": "programdom.Problem",
     "fields": {
-      "title": "Test Problem",
-      "skeleton": "print('this is a test')",
-      "language": 3,
+      "title": "People want to say Hello!",
+      "skeleton": "input_text = input()\n\noutput_text = \"Hello\"\n\nprint(output_text)",
+      "language": 34,
       "id": 1
     }
   }

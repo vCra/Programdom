@@ -112,17 +112,17 @@ class TestViewAuthStudent(TestCase):
     def test_workshop_list(self):
         path = reverse("workshop_list")
         response = self.client.get(path)
-        assert response.status_code == 403
+        assert response.status_code == 302
 
     def test_workshop_new(self):
         path = reverse("workshop_new")
         response = self.client.get(path)
-        assert response.status_code == 403
+        assert response.status_code == 302
 
     def test_workshop_detail(self):
         path = reverse("workshop_detail", kwargs={"pk": 1})
         response = self.client.get(path)
-        assert response.status_code == 403
+        assert response.status_code == 302
 
     def test_workshop_student_waiting(self):
         path = reverse("workshop_student_waiting", kwargs={"pk": 1})
@@ -132,34 +132,34 @@ class TestViewAuthStudent(TestCase):
     def test_workshop_present(self):
         path = reverse("workshop_present", kwargs={"pk": 1})
         response = self.client.get(path)
-        assert response.status_code == 403
+        assert response.status_code == 302
 
     def test_workshop_problems(self):
         path = reverse("workshop_problems", kwargs={"pk": 1})
         response = self.client.get(path)
-        assert response.status_code == 403
+        assert response.status_code == 302
 
     # Problem URLs
 
     def test_problem_list(self):
         path = reverse("problem_list")
         response = self.client.get(path)
-        assert response.status_code == 403
+        assert response.status_code == 302
 
     def test_problem_new(self):
         path = reverse("problem_create")
         response = self.client.get(path)
-        assert response.status_code == 403
+        assert response.status_code == 302
 
     def test_problem_detail(self):
         path = reverse("problem_detail", kwargs={"pk": 1})
         response = self.client.get(path)
-        assert response.status_code == 403
+        assert response.status_code == 302
 
     def test_problem_delete(self):
         path = reverse("problem_delete", kwargs={"pk": 1})
         response = self.client.get(path)
-        assert response.status_code == 403
+        assert response.status_code == 302
 
     def test_problem_student(self):
         path = reverse("problem_student", kwargs={"pk": 1})
@@ -169,17 +169,17 @@ class TestViewAuthStudent(TestCase):
     def test_problem_test_new(self):
         path = reverse("problem_test_new", kwargs={"pk": 1})
         response = self.client.get(path)
-        assert response.status_code == 403
+        assert response.status_code == 302
 
     def test_problem_test_update(self):
         path = reverse("problem_test_update", kwargs={"pk": 1, "tc_pk": 1})
         response = self.client.get(path)
-        assert response.status_code == 403
+        assert response.status_code == 302
 
     def test_problem_test_delete(self):
         path = reverse("problem_test_delete", kwargs={"pk": 1, "tc_pk": 1})
         response = self.client.get(path)
-        assert response.status_code == 403
+        assert response.status_code == 302
 
 
 class TestViewAuthStaff(TestCase):

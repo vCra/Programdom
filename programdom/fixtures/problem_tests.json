@@ -2,7 +2,7 @@
   {
     "model": "programdom.ProblemTest",
     "fields": {
-      "name": "New Test",
+      "name": "Test Bob says Hello",
       "std_in": "Bob",
       "std_out": "Hello Bob",
       "problem": 1,

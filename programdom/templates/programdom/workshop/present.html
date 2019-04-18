@@ -8,10 +8,11 @@
 {% block content %}
     <div class="row">
         <div class="col">
-            <h3>{{ object}} = {{ object.code }} <span class="badge badge-dark {% if not object.active %}d-none{% endif %}" id="badge_in_progress">In Progress</span></h3>
+            <h3>{{ object}}<span class="ml-3 badge badge-dark {% if not object.active %}d-none{% endif %}" id="badge_in_progress">In Progress</span></h3>
         </div>
         <div class="col">
             <div class="btn-group float-right" role="group" aria-label="Workshop Buttons">
+                <button class="btn btn-info" data-toggle="modal" data-target="#codeModal">Show Code</button>
                 {% if not object.active %}
                     <input type="hidden" id="input_toggle_value" value="true">
                     <button class="btn btn-success" id="btn_workshop_toggle">Begin Workshop</button>
@@ -23,12 +24,13 @@
         </div>
     </div>
     <div class="row">
-{#        <label class="" for="btn-group-problem-select">Select Active Problem: </label>#}
+    <div class="col mb-1">
         <div class="btn-group btn-group-sm" role="group" id="btn-group-problem-select" aria-label="Problem Select">
         {% for problem in object.problems.all %}
             <button type="button" class="btn btn-secondary problem-button" value="{{ problem.id }}">{{ problem }}</button>
         {% endfor %}
         </div>
+    </div>
     </div>
     <div class="row">
     <div class="col">
@@ -51,6 +53,28 @@
     </div>
     </div>
 {% endblock %}
+
+{% block modal %}
+    <div class="modal fade" id="codeModal" tabindex="-1" role="dialog" aria-labelledby="codeModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="codeModalLabel">Session Code for {{ object }}</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+            <h1 class="workshop_code display-1 text-center">{% if object.code %}{{ object.code }}{% else %}Start the workshop first!{% endif %}</h1>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
+
 {% block javascript %}
     {{ block.super }}
     <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js">
@@ -121,13 +145,17 @@
                     toastr.info("This workshop has now started");
                     $("#btn_workshop_toggle").removeClass("btn-success").addClass("btn-danger").text("End Workshop");
                     $("#input_toggle_value").val("false");
-                    $("#badge_in_progress").removeClass("d-none")
+                    $("#badge_in_progress").removeClass("d-none");
+                    $(".workshop_code").text(data["ws_code"]);
                 } else {
                     toastr.info("This workshop has now ended");
                     $("#btn_workshop_toggle").removeClass("btn-danger").addClass("btn-success").text("Begin Workshop");
                     $("#input_toggle_value").val("true");
-                    $("#badge_in_progress").addClass("d-none")
+                    $("#badge_in_progress").addClass("d-none");
+                    $(".workshop_code").text("Start the workshop First!");
+
                 }
+
             }
             if (action === "graph_update"){
                 status_chart.data.datasets[0].data=[data["count"], data["attempted"], data["passed"]];

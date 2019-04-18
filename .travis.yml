@@ -7,12 +7,21 @@ python:
 addons:
   postgresql: "9.4"
   chrome: stable
+  apt:
+    packages:
+      - chromium-chromedriver
+
 
 install:
   - pip install -r requirements.txt
 
 before_script:
   - psql -c 'create database programdom_test;' -U postgres
+
+  - ln --symbolic /usr/lib/chromium-browser/chromedriver "${HOME}/bin/chromedriver"
+
+  - ./manage.py runworker judgebridge
+
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
