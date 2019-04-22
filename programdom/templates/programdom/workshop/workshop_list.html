@@ -14,7 +14,8 @@
         </div>
         <div class="col">
             <div class="btn-group float-right" role="group" aria-label="Workshop Buttons">
-                <a class="btn btn-primary" href="{% url 'workshop_new' %}">Create a new Workshop</a>
+                <a class="btn btn-primary" href="{% url 'workshop_new' %}">Create a new Workshop <i
+                        class="fa fa-plus ml-1"></i></a>
             </div>
         </div>
     </div>
@@ -29,7 +30,7 @@
 
                     <form action="" method="get">
                     {{ filter.form | crispy }}
-                    <button type="submit" class="btn btn-primary btn-block">Search</button>
+                    <button type="submit" class="btn btn-primary btn-block">Search <i class="fa fa-search ml-1"></i></button>
                 </form>
                 </div>
             </div>

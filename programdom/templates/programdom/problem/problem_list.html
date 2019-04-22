@@ -8,19 +8,19 @@
 {% endblock breadcrumbs %}
 
 {% block content %}
-    <div class="row">
+    <div class="row mb-2">
         <div class="col">
             <h3>Problems</h3>
         </div>
         <div class="col">
             <div class="btn-group float-right" role="group" aria-label="Problem Buttons">
-                <a class="btn btn-primary" href="{% url 'problem_create' %}">Add new Problem</a>
+                <a class="btn btn-primary" href="{% url 'problem_create' %}">Add new Problem<i class="fa fa-plus ml-1"></i></a>
             </div>
         </div>
     </div>
     <div class="card-columns">
         {% for problem in object_list %}
-            <div class="card shadow">
+            <div class="card shadow-sm">
                 <div class="card-body">
                     <h5 class="card-title mb-0">{{ problem.title }} <span class="badge badge-secondary ml-2">{{ problem.language.verbose_name }}{% if problem.language.logo_name %}<i
                             class="fab ml-2 fa-{{problem.language.logo_name}}"></i>{% endif %}</span></h5>

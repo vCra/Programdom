@@ -58,6 +58,15 @@ DATABASES = {
     'default': env.db('DATABASE_URL', 'postgresql://postgres@localhost:5432/programdom_test'),
 }
 
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [("localhost", 6379)],
+        },
+    },
+}
+
 
 ALLOWED_HOSTS = ["localhost"]
 

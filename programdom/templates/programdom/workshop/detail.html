@@ -15,8 +15,8 @@
         </div>
         <div class="col-auto flex-grow-1">
             <div class="btn-group float-right" role="group" aria-label="Workshop Buttons">
-                <a class="btn btn-primary" href="{% url 'workshop_problems' object.id %}">Edit Problems</a>
-                <a class="btn btn-success" href="{% url 'workshop_present' object.id %}">Present</a>
+                <a class="btn btn-primary" href="{% url 'workshop_problems' object.id %}">Edit Problems <i class="fa fa-edit ml-1"></i></a>
+                <a class="btn btn-success" href="{% url 'workshop_present' object.id %}">Present <i class="fa fa-chalkboard-teacher ml-1"></i></a>
             </div>
         </div>
     </div>
@@ -36,9 +36,9 @@
                     </div>
                     <div class="col-auto flex-grow-1">
                         <div class="btn-group float-right" role="group" aria-label="problem_buttons">
-                            <a class="btn btn-primary btn-sm" href="{% url "problem_detail" item.pk %}">Edit this problem
+                            <a class="btn btn-primary btn-sm" href="{% url "problem_detail" item.pk %}">Edit this problem <i class="fa fa-edit ml-1"></i>
                             </a>
-                            <a class="btn btn-danger btn-sm" href="{% url 'problem_delete' item.pk %}">Remove Problem
+                            <a class="btn btn-danger btn-sm" href="{% url 'problem_delete' item.pk %}">Remove Problem <i class="fas fa-minus ml-1"></i>
                             </a>
                         </div>
                     </div>

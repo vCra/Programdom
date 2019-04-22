@@ -13,11 +13,6 @@ class ProblemListView(ListView):
     template_name = "programdom/problem/problem_list.html"
 
 
-class ProblemStudentView(DetailView):
-    model = Problem
-    template_name = "programdom/problem/student.html"
-
-
 class ProblemDetailView(SuccessMessageMixin, UpdateView):
     model = Problem
     template_name = "programdom/problem/problem_detail_view.html"
@@ -82,3 +77,8 @@ class ProblemTestCaseDeleteView(SuccessMessageMixin, DeleteView):
 
     def get_success_url(self):
         return self.object.problem.get_absolute_url()
+
+
+class ProblemStudentView(DetailView):
+    model = Problem
+    template_name = "programdom/problem/student.html"

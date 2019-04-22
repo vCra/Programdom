@@ -22,16 +22,16 @@ var pathsConfig = function (appName) {
     var vendorsRoot = 'node_modules/';
 
     return {
-        bootstrapSass: vendorsRoot + '/bootstrap/scss',
-        font_awesomeSass: vendorsRoot + '/@fortawesome/fontawesome-free/scss',
         vendorsJs: [
             vendorsRoot + 'jquery/dist/jquery.js',
-            vendorsRoot + 'popper.js/dist/umd/popper.js',
             vendorsRoot + 'toastr/build/toastr.min.js',
             vendorsRoot + 'bootstrap/dist/js/bootstrap.js',
+            vendorsRoot + 'chart.js/dist/Chart.js',
+            vendorsRoot + 'chartjs-plugin-colorschemes/dist/chartjs-plugin-colorschemes.js',
+            vendorsRoot + 'ace-builds/src/ace.js'
         ],
         vendorsFonts: [
-            vendorsRoot + '@fortawesome/fontawesome-free/webfonts/*',
+            vendorsRoot + '@fortawesome/fontawesome-free/webfonts/*'
         ],
         app: this.app,
         templates: this.app + '/templates',
@@ -39,7 +39,7 @@ var pathsConfig = function (appName) {
         sass: this.app + '/static/sass',
         fonts: this.app + '/static/fonts',
         images: this.app + '/static/images',
-        js: this.app + '/static/js',
+        js: this.app + '/static/js'
     }
 };
 
@@ -52,13 +52,7 @@ var paths = pathsConfig();
 // Styles autoprefixing and minification
 gulp.task('styles', function () {
     return gulp.src(paths.sass + '/project.scss')
-        .pipe(sass({
-            includePaths: [
-                paths.bootstrapSass,
-                paths.font_awesomeSass,
-                paths.sass
-            ]
-        }).on('error', sass.logError))
+        .pipe(sass().on('error', sass.logError))
         .pipe(plumber()) // Checks for errors
         .pipe(autoprefixer({browsers: ['last 2 versions']})) // Adds vendor prefixes
         .pipe(gulp.dest(paths.css))
@@ -121,5 +115,5 @@ gulp.task('watch', function () {
 
 // Default task
 gulp.task('default',
-    gulp.series(gulp.parallel('styles', 'scripts', 'vendor-scripts', 'imgCompression', 'fontCollection'), gulp.parallel('browserSync', 'watch'))
+    gulp.series(gulp.parallel('styles', 'scripts', 'vendor-scripts', 'imgCompression', 'fontCollection'), "watch")
 );

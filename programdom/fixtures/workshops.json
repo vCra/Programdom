@@ -3,7 +3,8 @@
     "model": "programdom.Workshop",
     "fields": {
       "title": "Test Workshop",
-      "id": 1
+      "id": 1,
+      "problems": [1]
     }
   }
 ]
