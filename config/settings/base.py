@@ -74,7 +74,8 @@ THIRD_PARTY_APPS = [
     'crispy_forms',
     'rest_framework',
     'django_tables2',
-    'channels'
+    'channels',
+    'django_filters'
 
 ]
 LOCAL_APPS = [
@@ -204,6 +205,10 @@ TEMPLATES = [
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 DJANGO_TABLES2_TEMPLATE = 'django_tables2/bootstrap4.html'
+
+REST_FRAMEWORK = {
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',)
+}
 
 # EMAIL
 # ------------------------------------------------------------------------------

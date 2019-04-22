@@ -56,8 +56,9 @@ class ProgramdomBridgeConsumer(AsyncConsumer):
             for test in problemtestset:
                 loop.create_task(self.test_submit(source_code, test))
         else:
-            # TODO: Give the user a message saying they have already submitted the problem
-            pass
+            await channel_layer.send(self.channel_name, {"type": "user.message", "message": "problem_solved"})
+
+        pass
 
     async def test_submit(self, source_code, test):
         """
@@ -149,7 +150,7 @@ class ProgramdomBridgeConsumer(AsyncConsumer):
                 # The user has solved the problem
                 cache.incr(f'workshop_{workshop_id}_problem_{problem_id}_users_passed')
                 cache.set(f'workshop_{workshop_id}_problem_{problem_id}_session_{session_id}_passed', True)
-                # TODO: Send a success message to the student
+                async_to_sync(channel_layer.send)(self.channel_name, {"type": "user.message", "message": "problem_success"})
 
         self.set_results_status(test_result)
 
@@ -168,6 +169,8 @@ class ProgramdomBridgeConsumer(AsyncConsumer):
         test_id = test_result.test_id
         status = test_result.result_data["status"]["id"]
 
+
+
         if status == Judge0Status.ACCEPTED.value:
             cache.incr(f'workshop_{workshop_id}_problem_{problem_id}_test_{test_id}_users_passed', ignore_key_check=True),
         elif status == Judge0Status.WRONG_ANSWER.value:
@@ -184,14 +187,4 @@ class ProgramdomBridgeConsumer(AsyncConsumer):
                 Judge0Status.RUNTIME_SIGSEGV.value,
                 Judge0Status.RUNTIME_SIGXFSZ.value):
             cache.incr(f'workshop_{workshop_id}_problem_{problem_id}_test_{test_id}_users_runtime_count', ignore_key_check=True),
-
-
-
-
-
-
-
-            
-        
-
 

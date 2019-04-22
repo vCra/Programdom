@@ -113,6 +113,8 @@ class StudentWorkshopConsumer(JsonWebsocketConsumer):
         event.pop("source_code")
         self.send_json(event)
 
+    def user_message(self, event):
+        self.send_json(event)
 
 class WorkshopControlConsumer(WebsocketConsumer):
 
@@ -150,6 +152,8 @@ class WorkshopControlConsumer(WebsocketConsumer):
         problem = text_data.get("problem_id")
         cache.set(f'workshop_{self.workshop_id}_current_problem', problem)
         async_to_sync(self.channel_layer.group_send)(f"wait_workshop_{self.workshop_id}", {"type": "problem.ready", "problem": problem})
+        self.send(text_data=json.dumps({"action": "problem_change", "problem": {"id": problem}}))
+        self.graph_update(None)
 
     def workshop_toggle(self, text_data: dict):
         workshop_id = text_data.get("workshop_id")

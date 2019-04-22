@@ -104,6 +104,12 @@ class Workshop(models.Model):
             cache.set(f'workshop_{self.id}_problem_{problem_id}_users_passed', 0),
             cache.set(f'workshop_{self.id}_problem_{problem_id}_users_attempted', 0)
 
+            for test_id in ProblemTest.objects.filter(problem_id=problem_id).values_list("id", flat=True):
+                cache.set(f'workshop_{self.id}_problem_{problem_id}_test_{test_id}_users_passed', 0),
+                cache.set(f'workshop_{self.id}_problem_{problem_id}_test_{test_id}_users_wrong_count', 0),
+                cache.set(f'workshop_{self.id}_problem_{problem_id}_test_{test_id}_users_time_count', 0),
+                cache.set(f'workshop_{self.id}_problem_{problem_id}_test_{test_id}_users_compilation_count', 0),
+                cache.set(f'workshop_{self.id}_problem_{problem_id}_test_{test_id}_users_runtime_count', 0),
         cache.delete(f'workshop_{self.id}_current_problem')
 
 

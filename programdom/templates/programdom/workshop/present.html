@@ -12,7 +12,7 @@
         </div>
         <div class="col">
             <div class="btn-group float-right" role="group" aria-label="Workshop Buttons">
-                <button class="btn btn-info" data-toggle="modal" data-target="#codeModal">Show Code</button>
+                <button class="btn btn-info" data-toggle="modal" data-target="#codeModal">Show Code<i class="fa fa-eye ml-1"></i></button>
                 {% if not object.active %}
                     <input type="hidden" id="input_toggle_value" value="true">
                     <button class="btn btn-success" id="btn_workshop_toggle">Begin Workshop</button>
@@ -24,31 +24,63 @@
         </div>
     </div>
     <div class="row">
-    <div class="col mb-1">
+    <div class="col col-auto">
+        <p>Current problem: <span id="span_current_problem">None</span></p>
+    </div>
+    <div class="col col-auto mb-1">
         <div class="btn-group btn-group-sm" role="group" id="btn-group-problem-select" aria-label="Problem Select">
         {% for problem in object.problems.all %}
             <button type="button" class="btn btn-secondary problem-button" value="{{ problem.id }}">{{ problem }}</button>
         {% endfor %}
         </div>
     </div>
+    <div class="col">
+
+    </div>
     </div>
     <div class="row">
     <div class="col">
         <ul class="nav nav-tabs" id="graphTabs" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" id="status-tab" data-toggle="tab" href="#tab-status" role="tab" aria-controls="home" aria-selected="true">Status Graph</a>
+                <a class="nav-link active" id="status-tab" data-toggle="tab" href="#tab-status" role="tab" aria-controls="status" aria-selected="true">Status Graph</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="results-tab" data-toggle="tab" href="#tab-results" role="tab" aria-controls="profile" aria-selected="false">Results Graph</a>
+                <a class="nav-link" id="results-tab" data-toggle="tab" href="#tab-results" role="tab" aria-controls="results" aria-selected="false">Results Graph</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" id="time-tab" data-toggle="tab" href="#tab-time" role="tab" aria-controls="contact" aria-selected="false">Time Graph</a>
+                <a class="nav-link" id="submissions-tab" data-toggle="tab" href="#tab-submissions" role="tab" aria-controls="submissions" aria-selected="false">Submissions</a>
             </li>
         </ul>
-        <div class="tab-content" id="myTabContent">
+        <div class="tab-content text-white" id="myTabContent">
             <div class="tab-pane fade show active" id="tab-status" role="tabpanel" aria-labelledby="status-tab"><canvas id="status_graph"></canvas></div>
             <div class="tab-pane fade" id="tab-results" role="tabpanel" aria-labelledby="results-tab"><canvas id="results_graph"></canvas></div>
-            <div class="tab-pane fade" id="tab-time" role="tabpanel" aria-labelledby="time-tab"><canvas id="time_graph"></canvas></div>
+            <div class="tab-pane fade" id="tab-submissions" role="tabpanel" aria-labelledby="submissions-tab">
+                <div class="container-fluid">
+                    <div class="row mt-3">
+                        <div class="col col-auto">
+                            <h4 class="text-dark">Filter submissions by result type: </h4>
+                        </div>
+                        <div class="col">
+                            <div class="btn-group" role="group" aria-label="submission-type-filter">
+                                <button type="button" class="btn btn-primary btn-sub-filter" data-filter-type="success">Success</button>
+                                <button type="button" class="btn btn-primary btn-sub-filter" data-filter-type="wrong">Wrong Answer</button>
+                                <button type="button" class="btn btn-primary btn-sub-filter" data-filter-type="timeout">Timeout</button>
+                                <button type="button" class="btn btn-primary btn-sub-filter" data-filter-type="compilation">Compilation Error</button>
+                                <button type="button" class="btn btn-primary btn-sub-filter" data-filter-type="runtime">Runtime Error</button>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-auto">
+                            <div class="btn-group btn-group-vertical" id="submission-list-tab">
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div id="editor">test</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
     </div>
@@ -75,17 +107,27 @@
     </div>
 {% endblock %}
 
+{% block css %}
+    {{ block.super }}
+    <style type="text/css" media="screen">
+        #editor {
+            height: 100%;
+
+        }
+    </style>
+    </head>
+{% endblock %}
+
 {% block javascript %}
     {{ block.super }}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.js">
+    {% csrf_token %}
+    <script type="text/javascript">
+        // using jQuery
+        var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
     </script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/toastr.min.css" rel="stylesheet">
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.4.0/Chart.min.js"></script>
 
     <script>
-
-
+        var current_problem_id = null;
         var status_chart_context = document.getElementById('status_graph').getContext('2d');
         var status_chart = new Chart(status_chart_context, {
             // The type of chart we want to create
@@ -96,8 +138,6 @@
                 labels: ["Online", "Attempted", "Passed"],
                 datasets: [{
                     label: "Users",
-                    backgroundColor: 'rgb(255, 99, 132)',
-                    borderColor: 'rgb(255, 99, 132)',
                     data: [0, 0, 0],
                 }]
             },
@@ -105,14 +145,40 @@
             // Configuration options go here
             options: {
                 scales: {
+                    xAxes: [{
+                        ticks: {
+                            fontColor: "#CCC",
+                        }
+                    }],
                     yAxes: [{
                         ticks: {
-                            beginAtZero: true
+                            beginAtZero: true,
+                            fontColor: "#CCC",
+                            stepSize: 1
                         }
                     }]
+                },
+                plugins: {
+                    colorschemes: {
+                        scheme: 'brewer.Dark2-8'
+                    }
                 }
             }
         });
+
+        var problem_names = {
+            {% for problem in object.problems.all %}
+            {{problem.id}}: '{{ problem }}',
+            {% endfor %}
+        };
+
+        var filter_ids = {
+            success: 4,
+            wrong: 5,
+            timeout: 6,
+            compilation: 7,
+            runtime: [8,9,10,11,12]
+        };
 
         var results_chart_context = document.getElementById('results_graph').getContext('2d');
         var results_chart = new Chart(results_chart_context, {
@@ -122,23 +188,28 @@
             // The data for our dataset
             data: {
                 labels: ["Accepted", "Wrong Answer", "Time Limit", "Compilation", "Runtime"],
-                datasets: [{
-                    label: "Count",
-                    backgroundColor: 'rgb(255, 99, 132)',
-                    borderColor: 'rgb(255, 99, 132)',
-                    data: [0, 0, 0, 0, 0],
-                }, {
-                    label: "Current",
-                    backgroundColor: 'rgb(109,255,76)',
-                    borderColor: 'rgb(109,255,76)',
-                    data: [0, 0, 0, 0, 0],
-                }]
             },
 
             // Configuration options go here
-            options: {}
+            options: {
+                scales: {
+                    xAxes: [{
+                        ticks: {
+                            fontColor: "#CCC",
+                        }
+                    }],
+                    yAxes: [{
+                        ticks: {
+                            beginAtZero: true,
+                            fontColor: "#CCC",
+                            stepSize: 1
+                        }
+                    }]
+                }
+            }
         });
 
+        var editor = ace.edit("editor");
 
         var chatSocket = new WebSocket(
             'ws://' + window.location.host +
@@ -167,7 +238,23 @@
             }
             if (action === "graph_update"){
                 status_chart.data.datasets[0].data=[data["cpa"]["count"], data["cpa"]["attempted"], data["cpa"]["passed"]];
-                status_chart.update()
+                status_chart.update();
+
+                var new_data = [];
+                data["results"].forEach(function (test) {
+                    new_data.push({
+                        label: test["test_name"],
+                        data: [test["accepted"], test["wrong"], test["time"], test["compilation"], test["runtime"]]
+                    })
+                });
+
+                results_chart.data.datasets = new_data;
+                results_chart.update();
+            }
+            if (action === "problem_change"){
+                console.log(data["problem"]["id"]);
+                $("#span_current_problem").text(problem_names[data["problem"]["id"]]);
+                current_problem_id = data["problem"]["id"];
             }
 
         };
@@ -192,9 +279,41 @@
                 "workshop_id": {{ object.id }},
                 "problem_id": event.target.value
             }))
-        })
+        });
 
 
+
+        $(".btn-sub-filter").click(function(event){
+            var type = $(this).data("filter-type");
+
+            $.ajax({
+                url: '{% url "api:submission-list" %}',
+                type: 'get',
+                contentType: 'application/x-www-form-urlencoded',
+                data: {
+                    status: filter_ids[type],
+                    problem: current_problem_id,
+                    workshop: {{ object.id }}
+                },
+                traditional: true,
+                success: function( data, textStatus, jQxhr ){
+                    $("#submission-list-tab").empty();
+                    data.forEach(function(element){
+                        $("#submission-list-tab").append(
+                        '<button class="btn btn-primary btn-submission-view" type="button" value="' + element["code"] + '">Submission ' + element["id"] + '</button>'
+                    )
+                    });
+                    $(".btn-submission-view").click(function (event) {
+                        $.ajax({
+                            url: event.target.value,
+                            success: function( data, textStatus, jQxhr ){
+                                editor.setValue(data);
+                            }
+                        });
+                    })
+                }
+            });
+        });
 
 
     </script>

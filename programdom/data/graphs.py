@@ -24,7 +24,7 @@ def gen_graph_data(workshop_id, problem_id):
     graph_data = {
         "action": "graph_update",
         "cpa": gen_cpa_graph(workshop_id, problem_id),
-        "results": [gen_results_graph(workshop_id, problem_id, test_id) for test_id in ProblemTest.objects.filter(problem_id=problem_id).values_list("id")]
+        "results": [gen_results_graph(workshop_id, problem_id, test_id) for test_id in ProblemTest.objects.filter(problem_id=problem_id).values_list("id", "name")]
     }
 
     return graph_data
@@ -43,8 +43,13 @@ def gen_cpa_graph(workshop_id, problem_id):
     }
 
 
-def gen_results_graph(workshop_id, problem_id, test_id):
+def gen_results_graph(workshop_id, problem_id, test):
+    test_id = test[0]
+    test_name = test[1]
+
     return {
+        "test_id": test_id,
+        "test_name": test_name,
         "accepted": cache.get(f'workshop_{workshop_id}_problem_{problem_id}_test_{test_id}_users_passed'),
         "wrong": cache.get(f'workshop_{workshop_id}_problem_{problem_id}_test_{test_id}_users_wrong_count'),
         "time": cache.get(f'workshop_{workshop_id}_problem_{problem_id}_test_{test_id}_users_time_count'),

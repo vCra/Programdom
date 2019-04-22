@@ -1,11 +1,12 @@
 
 @import "custom_bootstrap_vars";
-@import "bootstrap";
+@import "./node_modules/bootstrap/scss/bootstrap.scss";
+@import "./node_modules/toastr/toastr.scss";
 
 $fa-font-path:  "../fonts/";
-@import "fontawesome";
-@import "solid";
-@import "brands";
+@import "./node_modules/@fortawesome/fontawesome-free/scss/fontawesome.scss";
+@import "./node_modules/@fortawesome/fontawesome-free/scss/brands.scss";
+@import "./node_modules/@fortawesome/fontawesome-free/scss/solid.scss";
 
 
 // project specific CSS goes here

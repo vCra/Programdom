@@ -1,17 +1,8 @@
 {% extends "student_base.html" %}
-{% block css %}
-    {{ block.super }}
-    <style>
-        #editor {
-            /** Setting height is also important, otherwise editor wont showup**/
-            height: 500px;
-        }
-    </style>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css" type="text/css" rel="stylesheet">
-{% endblock %}
+
 {% block content %}
     <div class="container-fluid d-flex h-100 flex-column p-0">
-        <div class="row">
+        <div class="row ml-1">
             <div class="col">
                 <h1>{% block title %}{{ problem }}{% endblock %}</h1>
             </div>
@@ -21,7 +12,7 @@
             <div class="col-lg-9 p-0">
                 <div id="editor">{{ problem.skeleton }}</div>
             </div>
-            <div class="col-lg-3">
+            <div class="col-lg-3 p-0">
 
                 <button type="button" name="submit_code" id="btn-submit"
                         class="btn btn-primary btn-lg btn-block">Submit
@@ -93,11 +84,19 @@
     {% endfor %}
 {% endblock %}
 
+{% block css %}
+    {{ block.super }}
+    <style>
+        #editor {
+            /** Setting height is also important, otherwise editor wont showup**/
+            height: calc(100vh - 110px);
+        }
+    </style>
+{% endblock %}
+
 {% block javascript %}
     {{ block.super }}
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.2/ace.js" type="text/javascript"
-            charset="utf-8">
-    </script>
+
     <script>
 
         function get_status_type(status_id) {
@@ -148,8 +147,10 @@
         };
 
         var editor = ace.edit("editor");
+        ace.config.set('basePath', "https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.3/");
         editor.session.setMode("ace/mode/{{ problem.language.mode }}");
         editor.setAutoScrollEditorIntoView(true);
+        editor.setTheme('ace/theme/solarized_dark');
 
         var chatSocket = new WebSocket(
             'ws://' + window.location.host +
@@ -180,6 +181,16 @@
                     window.location.replace('{% url 'workshop_auth'%}');
                     break;
 
+                case "user.message":
+                    if (data['message'] === "problem_success") {
+                        toastr.success("Well done! This problem has been completed successfully!")
+                    }
+                    else if (data["message"] === "problem_solved") {
+                        toastr.warning("You have already solved this problem.")
+                    }
+                    else {
+                        console.log(data)
+                    }
             }
         };
 
