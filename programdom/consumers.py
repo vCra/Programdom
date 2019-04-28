@@ -69,7 +69,7 @@ class StudentWorkshopConsumer(JsonWebsocketConsumer):
             cache.set(f"session_{self.session.session_key}_status", "not_attempted")
 
             # Add 1 to the number of students connected
-            cache.incr(f'workshop_{self.workshop_code}_users_count')
+            cache.incr(f'workshop_{self.workshop_code}_users_count', ignore_key_check=True)
             async_to_sync(self.channel_layer.group_send)(f"workshop_{self.workshop_code}_control", {"type": "graph.update"})
 
             self.accept()

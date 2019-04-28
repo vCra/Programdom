@@ -49,6 +49,9 @@ DATETIME_FORMAT = ''
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 
+DATABASES = {
+    'default': env.db('DATABASE_URL', default='postgresql://postgres:postgrespassword@localhost:5432/postgres'),
+}
 
 # URLS
 # ------------------------------------------------------------------------------
@@ -159,6 +162,9 @@ STATICFILES_FINDERS = [
     'django.contrib.staticfiles.finders.AppDirectoriesFinder',
 ]
 
+# Clear the session when the user closes the browser, so that they are not part of another workshop next time
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True
+
 # MEDIA
 # ------------------------------------------------------------------------------
 # https://docs.djangoproject.com/en/dev/ref/settings/#media-root
@@ -237,3 +243,5 @@ ASGI_APPLICATION = "config.routing.application"
 # ------------------------------------------------------------------------------
 #
 
+# Time to wait before repolling Judge0 for a new status
+JUDGE0_POLL_WAIT = 1

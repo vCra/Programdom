@@ -6,4 +6,6 @@ set -o nounset
 
 
 python manage.py migrate
-python manage.py runserver_plus 0.0.0.0:8000
+python manage.py collectstatic --no-input
+daphne -b 0.0.0.0 -p 8000 config.asgi:application
+

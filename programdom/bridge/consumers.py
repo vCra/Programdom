@@ -4,6 +4,7 @@ import logging
 from asgiref.sync import sync_to_async, async_to_sync
 from channels.consumer import AsyncConsumer
 from channels.db import database_sync_to_async
+from django.conf import settings
 from django.core.cache import cache
 
 from channels.layers import get_channel_layer
@@ -47,7 +48,7 @@ class ProgramdomBridgeConsumer(AsyncConsumer):
     
         # Check if this user has already got a passing state for this problem
         if not cache.get(f'workshop_{self.workshop_id}_problem_{self.problem.id}_session_{self.session_id}_passed', default=False):
-            with await sync_to_async(open)(self.submission.code.path, 'rb') as f:
+            with await sync_to_async(self.submission.code.open)('rb') as f:
                 source_code = await sync_to_async(f.read)()
     
             loop = asyncio.get_event_loop()
@@ -118,7 +119,7 @@ class ProgramdomBridgeConsumer(AsyncConsumer):
         :param test_result: SubmissionTestResult Instance
         :return:
         """
-        await asyncio.sleep(0.5)
+        await asyncio.sleep(getattr(settings, "JUDGE0_POLL_WAIT", 1))
         await self.test_reload(test_result)
 
     def on_test_final(self, test_result):
@@ -158,7 +159,6 @@ class ProgramdomBridgeConsumer(AsyncConsumer):
         if not attempts % self.problem_count:
             async_to_sync(self.channel_layer.group_send)(f"workshop_{workshop_id}_control", {"type": "graph.update"})
 
-
     def set_results_status(self, test_result):
         """
         Sets params for the results data for this workshop
@@ -168,8 +168,6 @@ class ProgramdomBridgeConsumer(AsyncConsumer):
         problem_id = test_result.test.problem_id
         test_id = test_result.test_id
         status = test_result.result_data["status"]["id"]
-
-
 
         if status == Judge0Status.ACCEPTED.value:
             cache.incr(f'workshop_{workshop_id}_problem_{problem_id}_test_{test_id}_users_passed', ignore_key_check=True),

@@ -1,9 +1,9 @@
 -r ./base.txt
 
-Werkzeug
 ipdb
 Sphinx
 psycopg2-binary
+
 
 # Testing
 # ------------------------------------------------------------------------------
@@ -13,6 +13,7 @@ pytest-sugar
 factory-boy
 django-coverage-plugin
 pytest-django
+pytest-asyncio
 splinter[django]
 
 

@@ -1,6 +1,6 @@
 from django.test import TestCase
 
-from tests.factory.workshop import EmptyWorkshopFactory
+from tests.generators.workshop import EmptyWorkshopFactory
 
 
 class TestModels(TestCase):

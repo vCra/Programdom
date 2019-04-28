@@ -238,7 +238,6 @@
             }
             if (action === "graph_update"){
                 status_chart.data.datasets[0].data=[data["cpa"]["count"], data["cpa"]["attempted"], data["cpa"]["passed"]];
-                status_chart.update();
 
                 var new_data = [];
                 data["results"].forEach(function (test) {
@@ -248,8 +247,12 @@
                     })
                 });
 
+
                 results_chart.data.datasets = new_data;
+
                 results_chart.update();
+                status_chart.update();
+
             }
             if (action === "problem_change"){
                 console.log(data["problem"]["id"]);

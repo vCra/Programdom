@@ -27,9 +27,6 @@ CACHES = {
     }
 }
 
-DATABASES = {
-    'default': env.db('DATABASE_URL', 'postgresql://postgres@localhost:5432/postgres'),
-}
 
 # Sessions
 # ------------------------------------------------------------------------------

@@ -2,7 +2,7 @@ from django.contrib.auth.models import AnonymousUser
 from django.test import TestCase
 from django.urls import reverse
 
-from tests.factory.user import AuthUserFactory
+from tests.generators.user import AuthUserFactory
 
 
 class TestViewAuthAnon(TestCase):

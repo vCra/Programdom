@@ -150,7 +150,6 @@
         ace.config.set('basePath', "https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.3/");
         editor.session.setMode("ace/mode/{{ problem.language.mode }}");
         editor.setAutoScrollEditorIntoView(true);
-        editor.setTheme('ace/theme/solarized_dark');
 
         var chatSocket = new WebSocket(
             'ws://' + window.location.host +

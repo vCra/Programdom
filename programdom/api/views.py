@@ -7,15 +7,6 @@ from .serializers import SubmissionSerializer, ProblemSerializer
 from programdom.models import Submission, Problem
 
 
-class SubmissionStatusFilter(Filter):
-    distinct = True
-
-    def filter(self, qs, value):
-        if value:
-            return qs.filter(submissiontestresult__result_data__status__id=value)
-        return qs
-
-
 class SubmissionFilterSet(FilterSet):
     status = MultipleChoiceFilter(
         choices=enumerate(list(Judge0Status)),

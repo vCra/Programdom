@@ -2,7 +2,8 @@ version: '3'
 
 volumes:
   local_postgres_data: {}
-  local_postgres_data_backups: {}
+  static_files: {}
+  buckets: {}
 
 services:
   django:
@@ -11,22 +12,87 @@ services:
       dockerfile: ./compose/local/django/Dockerfile
     depends_on:
       - postgres
+      - redis
+      - bridge
+      - minio
     volumes:
-      - .:/app
+      - static_files:/static
     env_file:
       - ./.envs/.local/.django
       - ./.envs/.local/.postgres
-    ports:
-      - "8000:8000"
+      - ./.envs/.local/.redis
+      - ./.envs/.local/.minio
+    expose:
+      - "8000"
     command: /start
 
-  postgres:
+  bridge:
     build:
       context: .
-      dockerfile: ./compose/production/postgres/Dockerfile
+      dockerfile: ./compose/local/django/Dockerfile
+    env_file:
+      - ./.envs/.local/.django
+      - ./.envs/.local/.postgres
+      - ./.envs/.local/.redis
+      - ./.envs/.local/.minio
+    depends_on:
+      - redis
+      - postgres
+      - judgezero
+    command: python manage.py runworker judgebridge
+
+  postgres:
+    image:
+      postgres:11-alpine
     volumes:
       - local_postgres_data:/var/lib/postgresql/data
-      - local_postgres_data_backups:/backups
+    expose:
+      - "5432"
     env_file:
-      - ./.envs/.local/.postgres
-        
+      - .envs/.local/.postgres
+
+  judgezero:
+    image: judge0/api
+    expose:
+      - "3000"
+    env_file:
+      - .envs/.local/.judge0
+      - .envs/.local/.redis
+      - .envs/.local/.postgres
+
+  worker:
+    image: judge0/api
+    env_file:
+      - .envs/.local/.judge0
+      - .envs/.local/.redis
+      - .envs/.local/.postgres
+    command: bash -c "while true; do rails resque:work; done"
+    privileged: true
+    restart: always
+
+
+  redis:
+    image:
+      redis:5-alpine
+    expose:
+      - "6379"
+
+  rev-proxy:
+    image: nginx
+    depends_on:
+      - minio
+      - django
+    volumes:
+      - ./compose/nginx.conf:/etc/nginx/nginx.conf
+    ports:
+      - 80:80
+
+  minio:
+    image: minio/minio:RELEASE.2019-04-23T23-50-36Z
+    volumes:
+      - buckets:/data
+    expose:
+      - "9000"
+    env_file:
+      - .envs/.local/.minio
+    command: server /data

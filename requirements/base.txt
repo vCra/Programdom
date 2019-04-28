@@ -13,12 +13,9 @@ django-redis
 
 # Django REST Framework
 djangorestframework
-coreapi
-
 
 channels
+daphne
 channels-redis
 
 judge0api
-
-aiohttp

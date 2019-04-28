@@ -2,7 +2,7 @@ from django.conf import settings
 from django.contrib.auth import SESSION_KEY, BACKEND_SESSION_KEY, HASH_SESSION_KEY
 from django.contrib.sessions.backends.db import SessionStore
 
-from tests.factory.user import AuthUserFactory
+from tests.generators.user import AuthUserFactory
 
 
 def create_session_cookie():
