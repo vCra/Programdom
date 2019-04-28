@@ -12,7 +12,7 @@ var gulp = require('gulp'),
     rename = require('gulp-rename'),
     plumber = require('gulp-plumber'),
     uglify = require('gulp-uglify'),
-    imagemin = require('gulp-imagemin'),
+    imagemin = require('gulp-imagemin');
 
 
 // Relative paths function
@@ -97,5 +97,5 @@ gulp.task('watch', function () {
 });
 
 gulp.task('build',
-    gulp.parallel('styles', 'scripts', 'vendor-scripts', 'imgCompression', 'fontCollection')
+    gulp.parallel('styles', 'scripts', 'vendor-scripts', 'fontCollection')
 );
