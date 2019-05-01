@@ -13,7 +13,7 @@ services:
     ports:
       - "5432:5432"
     env_file:
-      - .envs/.local/.postgres
+      - .envs/.prod/.postgres
 
 
   judgezero:
@@ -21,9 +21,9 @@ services:
     ports:
       - "3000:3000"
     env_file:
-      - .envs/.local/.judge0
-      - .envs/.local/.redis
-      - .envs/.local/.postgres
+      - .envs/.prod/.judge0
+      - .envs/.prod/.redis
+      - .envs/.prod/.postgres
 
 
   redis:

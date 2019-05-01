@@ -1,5 +1,6 @@
 ////////////////////////////////
 //Setup//
+// This gulp file should be used in production, as it does not watch files, or start browser-sync
 ////////////////////////////////
 
 // Plugins

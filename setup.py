@@ -16,7 +16,7 @@ def read(filename):
 setup(
     name="programdom",
     version="1.0.0",
-    url="https://github.com/vCra/mooshak2api",
+    url="https://github.com/vCra/programdom",
     license='MIT',
 
     author="Aaron Walker",

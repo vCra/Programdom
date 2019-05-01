@@ -35,7 +35,7 @@
                             <h4 class="card-title">Problem Tests</h4>
                         </div>
                         <div class="col">
-                            <a class="btn btn-success float-right" href="{% url "problem_test_new" object.id %}">New Test
+                            <a class="btn btn-success float-right save-code" href="{% url "problem_test_new" object.id %}">New Test
                                 <i class="fa fa-plus ml-1"></i></a>
                         </div>
                     </div>
@@ -63,7 +63,7 @@
         <div class="col-md-9">
             <div class="container-fluid">
                 <div id="editor">{{ object.skeleton }}</div>
-                <button class="btn btn-success mt-2 float-right" id="btn-save-code">Save Code <i class="fa fa-save ml-1"></i></button>
+                <button class="btn btn-success mt-2 float-right save-code">Save Code <i class="fa fa-save ml-1"></i></button>
             </div>
         </div>
     </div>
@@ -79,36 +79,36 @@
 
     <script>
     var editor = ace.edit("editor");
+    ace.config.set('basePath', "https://cdnjs.cloudflare.com/ajax/libs/ace/1.4.3/");
+
     editor.session.setMode("ace/mode/{{ object.language.mode }}");
     </script>
     {% csrf_token %}
     <script type="text/javascript">
         // using jQuery
         var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
-    </script>
-    <script>
 
+        var save_code = function(e){
+            $.ajax({
+                url: '{% url "api:problem-list" %}{{ problem.id }}/',
+                dataType: 'text',
+                type: 'patch',
+                contentType: 'application/x-www-form-urlencoded',
+                data: {
+                    "skeleton": editor.getValue()
+                },
+                success: function( data, textStatus, jQxhr ){
+                    toastr.success("Problem Code Updated");
+                },
+                error: function( jqXhr, textStatus, errorThrown ){
+                    toastr.error("Unable to update Code");
+                }
+            });
+        };
 
-    $("#btn-save-code").click(function(){
+    $(".save-code").click(save_code);
+    $("#submit-id-submit").click(save_code);
 
-
-        $.ajax({
-            url: '{% url "api:problem-list" %}{{ problem.id }}/',
-            dataType: 'text',
-            type: 'patch',
-            contentType: 'application/x-www-form-urlencoded',
-            data: {
-                "skeleton": editor.getValue()
-            },
-            success: function( data, textStatus, jQxhr ){
-                toastr.success("Problem Code Updated");
-            },
-            error: function( jqXhr, textStatus, errorThrown ){
-                toastr.error("Unable to update Code");
-            }
-        });
-        }
-    )
     </script>
 {% endblock javascript %}
 {% block css %}

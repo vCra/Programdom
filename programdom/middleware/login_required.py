@@ -6,6 +6,13 @@ from django.urls import resolve, reverse
 
 
 class LoginRequiredMiddleware:
+    """
+    Middlewear to ensure that the current "user" is allowed to complete the current request
+
+    The system currently checks if the user is authenticated or if they have a "current_workshop_id"
+
+    Unauthenticated/unauthorised users are sent to the login page
+    """
     def __init__(self, get_response):
         self.get_response = get_response
         self.login_url = settings.LOGIN_URL

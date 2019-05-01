@@ -13,7 +13,7 @@ pytest-sugar
 factory-boy
 django-coverage-plugin
 pytest-django
-pytest-asyncio
+pytest-cov
 splinter[django]
 
 

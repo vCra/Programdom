@@ -27,15 +27,15 @@
     <div class="col col-auto">
         <p>Current problem: <span id="span_current_problem">None</span></p>
     </div>
-    <div class="col col-auto mb-1">
+    <div class="col col-auto flex-grow-1 mb-1">
         <div class="btn-group btn-group-sm" role="group" id="btn-group-problem-select" aria-label="Problem Select">
         {% for problem in object.problems.all %}
             <button type="button" class="btn btn-secondary problem-button" value="{{ problem.id }}">{{ problem }}</button>
         {% endfor %}
         </div>
     </div>
-    <div class="col">
-
+    <div class="col col-auto float-right">
+        Workshop Code: <span class="workshop_code">{{ object.code }}</span></p>
     </div>
     </div>
     <div class="row">
@@ -76,7 +76,7 @@
                             </div>
                         </div>
                         <div class="col">
-                            <div id="editor">test</div>
+                            <div id="editor"></div>
                         </div>
                     </div>
                 </div>

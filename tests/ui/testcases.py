@@ -1,6 +1,5 @@
 import time
 
-from channels.testing import ChannelsLiveServerTestCase
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from splinter import Browser
 from django.urls import reverse
@@ -9,7 +8,7 @@ from programdom.models import Workshop
 from tests.generators.user import AuthUserFactory
 
 
-class AuthedSplinterTestCase(ChannelsLiveServerTestCase):
+class AuthedSplinterTestCase(StaticLiveServerTestCase):
 
 
     def setUp(self):
@@ -25,7 +24,7 @@ class AuthedSplinterTestCase(ChannelsLiveServerTestCase):
         self.browser.quit()
 
 
-class StudentSplinterTestCase(ChannelsLiveServerTestCase):
+class StudentSplinterTestCase(StaticLiveServerTestCase):
 
     fixtures = ['workshops', "languages", "problems", "problem_tests"]
 
