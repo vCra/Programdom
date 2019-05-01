@@ -1,5 +1,3 @@
-import time
-
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from splinter import Browser
 from django.urls import reverse
@@ -29,7 +27,7 @@ class StudentSplinterTestCase(StaticLiveServerTestCase):
     fixtures = ['workshops', "languages", "problems", "problem_tests"]
 
     def setUp(self):
-        self.browser = Browser('chrome')
+        self.browser = Browser('chrome', headless=True)
         self.browser.visit(f'{self.live_server_url}{reverse("workshop_auth")}')
         self.workshop = Workshop.objects.get(pk=1)
         self.workshop.start()
