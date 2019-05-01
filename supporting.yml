@@ -12,19 +12,6 @@ services:
       - local_postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
-    env_file:
-      - .envs/.prod/.postgres
-
-
-  judgezero:
-    image: judge0/api
-    ports:
-      - "3000:3000"
-    env_file:
-      - .envs/.prod/.judge0
-      - .envs/.prod/.redis
-      - .envs/.prod/.postgres
-
 
   redis:
     image:

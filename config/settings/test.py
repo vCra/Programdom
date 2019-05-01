@@ -55,7 +55,7 @@ EMAIL_PORT = 1025
 # ------------------------------------------------------------------------------
 
 DATABASES = {
-    'default': env.db('DATABASE_URL', 'postgresql://postgres:postgrespassword@localhost:5432/programdom_test'),
+    'default': env.db('DATABASE_URL', 'postgresql://postgres@localhost:5432/postgres'),
 }
 
 CHANNEL_LAYERS = {
