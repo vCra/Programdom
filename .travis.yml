@@ -14,7 +14,7 @@ install:
 
 before_script:
   - docker-compose -f supporting.yml up -d
-  - wget https://chromedriver.storage.googleapis.com/74.0.3729.6/chromedriver_linux64.zip -O temp.zip; unzip temp.zip; rm temp.zip
+  - wget https://chromedriver.storage.googleapis.com/74.0.3729.6/chromedriver_linux64.zip -O temp.zip; unzip temp.zip; rm temp.zip; mv chromedriver ${HOME}/bin/chromedriver
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
   - chmod +x ./cc-test-reporter
   - ./cc-test-reporter before-build
