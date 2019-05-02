@@ -135,8 +135,12 @@ class SubmissionTestResult(models.Model):
     result_data = JSONField(blank=True, default=dict)
 
     def send_user_status(self, channel_name):
-        send_data = {**self.result_data, "test_id": self.test.id, "type": "submission.status"}
-        async_to_sync(channel_layer.send)(channel_name, send_data)
+        try:
+            send_data = {**self.result_data, "test_id": self.test.id, "type": "submission.status"}
+            async_to_sync(channel_layer.send)(channel_name, send_data)
+        except TypeError:
+            # channel_name was probably empty, which usually happens when testing
+            pass
 
 
 

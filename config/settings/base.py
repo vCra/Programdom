@@ -245,3 +245,5 @@ ASGI_APPLICATION = "config.routing.application"
 
 # Time to wait before repolling Judge0 for a new status
 JUDGE0_POLL_WAIT = 1
+
+HEADLESS = False

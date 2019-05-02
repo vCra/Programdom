@@ -7,5 +7,15 @@
       "language": 34,
       "id": 1
     }
+  },
+  {
+    "model": "programdom.ProblemTest",
+    "fields": {
+      "name": "Hello Bob",
+      "std_in": "Bob",
+      "std_out": "Hello Bob",
+      "problem": 1,
+      "id": 1
+    }
   }
 ]

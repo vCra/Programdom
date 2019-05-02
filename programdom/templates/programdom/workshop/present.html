@@ -8,7 +8,7 @@
 {% block content %}
     <div class="row">
         <div class="col">
-            <h3>{{ object}}<span class="ml-3 badge badge-dark {% if not object.active %}d-none{% endif %}" id="badge_in_progress">In Progress</span></h3>
+            <h3>{% block title %}{{ object}}{% endblock %}<span class="ml-3 badge badge-dark {% if not object.active %}d-none{% endif %}" id="badge_in_progress">In Progress</span></h3>
         </div>
         <div class="col">
             <div class="btn-group float-right" role="group" aria-label="Workshop Buttons">

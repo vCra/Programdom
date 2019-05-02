@@ -19,9 +19,13 @@ TEST_RUNNER = "django.test.runner.DiscoverRunner"
 # https://docs.djangoproject.com/en/dev/ref/settings/#caches
 CACHES = {
     "default": {
-        "BACKEND": "django.core.cache.backends.locmem.LocMemCache", "LOCATION": ""
+        "BACKEND": "django_redis.cache.RedisCache",
+        "LOCATION": "redis://127.0.0.1:6379/1",
+        "KEY_PREFIX": "web",
+        "TIMEOUT": None
     }
 }
+
 
 # PASSWORDS
 # ------------------------------------------------------------------------------
@@ -67,6 +71,7 @@ CHANNEL_LAYERS = {
     },
 }
 
+HEADLESS = True
 
 ALLOWED_HOSTS = ["localhost"]
 
