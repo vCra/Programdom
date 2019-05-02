@@ -13,6 +13,8 @@ install:
   - pip install -r requirements.txt
 
 before_script:
+  - npm install
+  - gulp --gulpfile gulpfile.prod.js build
   - docker-compose -f supporting.yml up -d
   - wget https://chromedriver.storage.googleapis.com/74.0.3729.6/chromedriver_linux64.zip -O temp.zip; unzip temp.zip; rm temp.zip; mv chromedriver ${HOME}/bin/chromedriver
   - curl -L https://codeclimate.com/downloads/test-reporter/test-reporter-latest-linux-amd64 > ./cc-test-reporter
