@@ -50,7 +50,7 @@ DATETIME_FORMAT = ''
 # https://docs.djangoproject.com/en/dev/ref/settings/#databases
 
 DATABASES = {
-    'default': env.db('DATABASE_URL', default='postgresql://postgres:postgrespassword@localhost:5432/postgres'),
+    'default': env.db('DATABASE_URL', default='postgresql://postgres@localhost:5432/postgres'),
 }
 
 # URLS

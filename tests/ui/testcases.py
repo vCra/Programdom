@@ -1,3 +1,4 @@
+from channels.testing import ChannelsLiveServerTestCase
 from django.contrib.staticfiles.testing import StaticLiveServerTestCase
 from splinter import Browser
 from django.urls import reverse
@@ -6,11 +7,11 @@ from programdom.models import Workshop
 from tests.generators.user import AuthUserFactory
 
 
-class AuthedSplinterTestCase(StaticLiveServerTestCase):
+class AuthedSplinterTestCase(ChannelsLiveServerTestCase):
 
 
     def setUp(self):
-        self.browser = Browser('chrome', headless=True)
+        self.browser = Browser('chrome', headless=False)
 
         user = AuthUserFactory()
         self.browser.visit(f'{self.live_server_url}{reverse("users:login")}')
@@ -22,12 +23,12 @@ class AuthedSplinterTestCase(StaticLiveServerTestCase):
         self.browser.quit()
 
 
-class StudentSplinterTestCase(StaticLiveServerTestCase):
+class StudentSplinterTestCase(ChannelsLiveServerTestCase):
 
     fixtures = ['workshops', "languages", "problems", "problem_tests"]
 
     def setUp(self):
-        self.browser = Browser('chrome', headless=True)
+        self.browser = Browser('chrome', headless=False)
         self.browser.visit(f'{self.live_server_url}{reverse("workshop_auth")}')
         self.workshop = Workshop.objects.get(pk=1)
         self.workshop.start()

@@ -63,6 +63,35 @@ In production, a few changes will need to be made.
 
 
 
+Development
+-----------
+
+If you want to develop Programdom, then you should do the following, after ensuring that you have all of the development requirements installed
+
+1. Create and activate a virtualenv, with Python >= 3.6
+
+2. Install packages via ``pip install -r requirements/local.txt``
+
+3. Run gulp - this will build all static files, and launch browsersync, which will refresh the browser on any static file changes
+
+4. Run ``./manage.py runserver`` and ``./manage.py runworker judgebridge`` for the bridge server
+
+5. To run tests, run ``pytest``
+
+
+Development Requirements
+------------------------
+Python >=3.6
+npm
+docker
+docker-compose
+google-chrome and chromedriver (only for UI tests)
+
+Related packages
+----------------
+
+You might also want to check out `judge0api <https://github.com/vCra/judge0api>`_
+
 Licence
 -------
 

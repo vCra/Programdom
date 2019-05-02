@@ -70,7 +70,6 @@ gulp.task('scripts', function () {
         .pipe(gulp.dest(paths.js));
 });
 
-
 // Vendor Javascript minification
 gulp.task('vendor-scripts', function () {
     return gulp.src(paths.vendorsJs)
@@ -101,7 +100,7 @@ gulp.task('imgCompression', function () {
 gulp.task('browserSync', function () {
     browserSync.init(
         [paths.css + "/*.css", paths.js + "*.js", paths.templates + '*.html'], {
-            proxy: "localhost:8000"
+            proxy: {target: "localhost:8000", ws:true}
         });
 });
 
@@ -119,5 +118,5 @@ gulp.task('build',
 
 // Default task
 gulp.task('default',
-    gulp.series('build', 'watch')
+    gulp.series('build', gulp.parallel('watch', 'browserSync'))
 );
