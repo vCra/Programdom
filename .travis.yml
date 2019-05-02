@@ -4,7 +4,10 @@ language: python
 python:
   - "3.7"
 
-cache: pip
+cache:
+  - pip
+  - npm
+
 
 addons:
   chrome: stable
@@ -14,6 +17,7 @@ install:
 
 before_script:
   - npm install
+  - npm install -g gulp-cli
   - gulp --gulpfile gulpfile.prod.js build
   - docker-compose -f supporting.yml up -d
   - wget https://chromedriver.storage.googleapis.com/74.0.3729.6/chromedriver_linux64.zip -O temp.zip; unzip temp.zip; rm temp.zip; mv chromedriver ${HOME}/bin/chromedriver
