@@ -11,7 +11,7 @@ class AuthedSplinterTestCase(ChannelsLiveServerTestCase):
 
 
     def setUp(self):
-        self.browser = Browser('chrome', headless=False)
+        self.browser = Browser('chrome', headless=True)
 
         user = AuthUserFactory()
         self.browser.visit(f'{self.live_server_url}{reverse("users:login")}')
@@ -28,7 +28,7 @@ class StudentSplinterTestCase(ChannelsLiveServerTestCase):
     fixtures = ['workshops', "languages", "problems", "problem_tests"]
 
     def setUp(self):
-        self.browser = Browser('chrome', headless=False)
+        self.browser = Browser('chrome', headless=True)
         self.browser.visit(f'{self.live_server_url}{reverse("workshop_auth")}')
         self.workshop = Workshop.objects.get(pk=1)
         self.workshop.start()
