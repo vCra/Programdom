@@ -7,10 +7,7 @@ python:
 cache: pip
 
 addons:
-  apt:
-    packages:
-      - chromium-chromedriver
-
+  chrome: stable
 
 install:
   - pip install -r requirements.txt
@@ -28,3 +25,4 @@ script:
 after_script:
   - ./cc-test-reporter after-build --id b99c3291b5f5f531ea098cdb806a1f0e9e7a45bcc59858dd18962ec3029300b9 --exit-code $TRAVIS_TEST_RESULT
   - docker-compose -f supporting.yml down
+
